@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5086512900361970046}
-  m_Layer: 0
+  - component: {fileID: 4601176781224908161}
+  m_Layer: 6
   m_Name: RedNormalNotes
-  m_TagString: Untagged
+  m_TagString: NormalNotes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,13 +27,25 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 1, z: 0.7}
+  m_LocalScale: {x: 0.6, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2699632610649744083}
   - {fileID: 741769490762242314}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4601176781224908161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415904194204989163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73922bb3bb6c44646b6cb3e3371200ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1340647144300358400
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,7 +58,7 @@ GameObject:
   - component: {fileID: 1761592689705628946}
   - component: {fileID: 5841734362705097400}
   - component: {fileID: 8858436779008359527}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +165,7 @@ GameObject:
   - component: {fileID: 741769490762242314}
   - component: {fileID: 2294419309999540026}
   - component: {fileID: 1338092492035212313}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
