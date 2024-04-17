@@ -41,8 +41,7 @@ public class NoteGenerator : MonoBehaviour
     List<GameObject> notesObject = new List<GameObject>(); //ノーツオブジェクト
 
     [SerializeField] const float NotesSpeed = 5.0f; // ノーツ速度
-    [SerializeField] List<GameObject> normalNote;   // ノーマルノーツプレハブ
-    [SerializeField] GameObject longNote;           // ロングノーツプレハブ
+    [SerializeField] List<GameObject> noteObject;   // ノーツプレハブ
 
     /// <summary>
     /// ノーツの種類の列挙型
@@ -108,10 +107,19 @@ public class NoteGenerator : MonoBehaviour
     {
         // 生成座標計算
         float z = time * NotesSpeed;
+        // レーンに合わせた座標
         switch (notesData.block)
         {
             case 0:
-                //notesObject.Add(Instantiate(normalNote, new Vector3(-1.1f, 0.47f, z), Quaternion.identity));
+                if(notesData.type == (int)NotesType.NormalNote)
+                {
+
+                }
+                else if(notesData.type == (int)NotesType.LongNote)
+                {
+
+                }
+                notesObject.Add(Instantiate(noteObject[0], new Vector3(-1.1f, 0.47f, z), Quaternion.identity));
                 break;
         }
     }
