@@ -1,11 +1,11 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /// <summary>
-/// ƒŒ[ƒ“‚ÌƒRƒ“ƒgƒ[ƒ‰[ƒNƒ‰ƒX
+/// ãƒ¬ãƒ¼ãƒ³ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚¯ãƒ©ã‚¹
 /// </summary>
 public class LaneController : MonoBehaviour
 {
-    // ŠeƒŒ[ƒ“‚Ìƒ}ƒeƒŠƒAƒ‹
+    // å„ãƒ¬ãƒ¼ãƒ³ã®ãƒãƒ†ãƒªã‚¢ãƒ«
     [SerializeField] Material redLaneMaterial;
     [SerializeField] Material greenLaneMaterial;
     [SerializeField] Material blueLaneMaterial;
@@ -13,16 +13,16 @@ public class LaneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ƒL[“ü—Í‚É‰‚¶‚½ƒŒ[ƒ“‚Ì”­Œõ
+        // ã‚­ãƒ¼å…¥åŠ›æ™‚ã«å¿œã˜ãŸãƒ¬ãƒ¼ãƒ³ã®ç™ºå…‰
         LuminescenceLane();
     }
 
     /// <summary>
-    /// ƒŒ[ƒ“‚Ì”­Œõ
+    /// ãƒ¬ãƒ¼ãƒ³ã®ç™ºå…‰
     /// </summary>
     void LuminescenceLane()
     {
-        // ÔƒŒ[ƒ“
+        // èµ¤ãƒ¬ãƒ¼ãƒ³
         if (Input.GetKey(KeyCode.F))
         {
             redLaneMaterial.SetColor("_EmissionColor", Color.red);
@@ -31,7 +31,7 @@ public class LaneController : MonoBehaviour
         {
             redLaneMaterial.SetColor("_EmissionColor", Color.black);
         }
-        // —ÎƒŒ[ƒ“
+        // ç·‘ãƒ¬ãƒ¼ãƒ³
         if (Input.GetKey(KeyCode.J))
         {
             greenLaneMaterial.SetColor("_EmissionColor", Color.green);
@@ -40,7 +40,7 @@ public class LaneController : MonoBehaviour
         {
             greenLaneMaterial.SetColor("_EmissionColor", Color.black);
         }
-        // ÂƒŒ[ƒ“
+        // é’ãƒ¬ãƒ¼ãƒ³
         if (Input.GetKey(KeyCode.K))
         {
             blueLaneMaterial.SetColor("_EmissionColor", Color.blue);
