@@ -1,51 +1,51 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// •ˆ–Êƒf[ƒ^(json)‚ÌƒNƒ‰ƒX
+/// è­œé¢ãƒ‡ãƒ¼ã‚¿(json)ã®ã‚¯ãƒ©ã‚¹
 /// </summary>
 [Serializable]
 class InputJsonData
 {
-    public string name;     // ‹È–¼
-    public int maxBlock; // Å‘å”
+    public string name;     // æ›²å
+    public int maxBlock; // æœ€å¤§æ•°
     public int BPM;
     public int offset;
     public Notes[] notes;
 }
 
 /// <summary>
-/// ƒm[ƒcƒNƒ‰ƒX
+/// ãƒãƒ¼ãƒ„ã‚¯ãƒ©ã‚¹
 /// </summary>
 [Serializable]
 public class Notes
 {
-    public int type;  // í—Ş
-    public int num;   // ƒm[ƒcƒGƒfƒBƒ^[ã‚Å‚Ìcü‚ÌˆÊ’u
-    public int block; // ƒŒ[ƒ“‚ÌˆÊ’u
-    public int LPB;   // 1”‚ğ‰½•ªŠ„‚µ‚Äƒm[ƒc‚ğ’u‚­‚©
+    public int type;  // ç¨®é¡
+    public int num;   // ãƒãƒ¼ãƒ„ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ä¸Šã§ã®ç¸¦ç·šã®ä½ç½®
+    public int block; // ãƒ¬ãƒ¼ãƒ³ã®ä½ç½®
+    public int LPB;   // 1æ‹ã‚’ä½•åˆ†å‰²ã—ã¦ãƒãƒ¼ãƒ„ã‚’ç½®ãã‹
 }
 
 /// <summary>
-/// ƒm[ƒc¶¬ƒNƒ‰ƒX
+/// ãƒãƒ¼ãƒ„ç”Ÿæˆã‚¯ãƒ©ã‚¹
 /// </summary>
 public class NoteGenerator : MonoBehaviour
 {
-    int notesNum;    // ‘ƒm[ƒc”
-    string songName; // ‹È–¼
+    int notesNum;    // ç·ãƒãƒ¼ãƒ„æ•°
+    string songName; // æ›²å
     
-    List<int>   lanesNum  = new List<int>();   // ~‚Á‚Ä‚­‚éƒŒ[ƒ“‚Ì”Ô†
-    List<int>   notesType = new List<int>();   // ~‚Á‚Ä‚­‚éƒm[ƒc‚Ìí—Ş”Ô†
-    List<float> notesTime = new List<float>(); // ƒm[ƒc‚ª”»’èü‚Æd‚È‚éŠÔ
-    List<GameObject> notesObject = new List<GameObject>(); //ƒm[ƒcƒIƒuƒWƒFƒNƒg
+    List<int>   lanesNum  = new List<int>();   // é™ã£ã¦ãã‚‹ãƒ¬ãƒ¼ãƒ³ã®ç•ªå·
+    List<int>   notesType = new List<int>();   // é™ã£ã¦ãã‚‹ãƒãƒ¼ãƒ„ã®ç¨®é¡ç•ªå·
+    List<float> notesTime = new List<float>(); // ãƒãƒ¼ãƒ„ãŒåˆ¤å®šç·šã¨é‡ãªã‚‹æ™‚é–“
+    List<GameObject> notesObject = new List<GameObject>(); //ãƒãƒ¼ãƒ„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
-    [SerializeField] const float NotesSpeed = 5.0f;  // ƒm[ƒc‘¬“x
-    [SerializeField] List<GameObject> noteObject;    // ƒm[ƒcƒvƒŒƒnƒu
-    [SerializeField] Transform createNotesTransform; // ¶¬‚µ‚½ƒm[ƒc‚ğ“ü‚ê‚étransform
+    [SerializeField] const float NotesSpeed = 5.0f;  // ãƒãƒ¼ãƒ„é€Ÿåº¦
+    [SerializeField] List<GameObject> noteObject;    // ãƒãƒ¼ãƒ„ãƒ—ãƒ¬ãƒãƒ–
+    [SerializeField] Transform createNotesTransform; // ç”Ÿæˆã—ãŸãƒãƒ¼ãƒ„ã‚’å…¥ã‚Œã‚‹transform
 
     /// <summary>
-    /// ƒm[ƒc‚Ìí—Ş‚Ì—ñ‹“Œ^
+    /// ãƒãƒ¼ãƒ„ã®ç¨®é¡ã®åˆ—æŒ™å‹
     /// </summary>
     enum NotesType
     { 
@@ -53,55 +53,54 @@ public class NoteGenerator : MonoBehaviour
         LongNote = 2
     }
 
-
     const float frame = 60.0f;
 
     void OnEnable()
     {
-        notesNum = 0;        // ‘ƒm[ƒc”‰Šú‰»
-        songName = "ƒI[ƒo[ƒ‰ƒCƒh - d‰¹ƒeƒgSV[‹g“c–é¢]"; // ‹È–¼æ“¾ Œ»İ‚Í‰¼æ“¾(‚Ì‚¿‚É©“®‰»)
-        LoadMusicalScoreData(songName);      // •ˆ–Êƒf[ƒ^“Ç‚İ‚İ
+        notesNum = 0;        // ç·ãƒãƒ¼ãƒ„æ•°åˆæœŸåŒ–
+        songName = "ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰"; // æ›²åå–å¾— ç¾åœ¨ã¯ä»®å–å¾—(ã®ã¡ã«è‡ªå‹•åŒ–)
+        LoadMusicalScoreData(songName);      // è­œé¢ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
     }
 
     /// <summary>
-    /// •ˆ–Êƒf[ƒ^‚Ì“Ç‚İ‚İ
+    /// è­œé¢ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
     /// </summary>
-    /// <param name="SongName">‹È–¼</param>
+    /// <param name="SongName">æ›²å</param>
     void LoadMusicalScoreData(string SongName)
     {
-        // ‹È–¼æ“¾
+        // æ›²åå–å¾—
         string inputSongName = Resources.Load<TextAsset>(songName).ToString();
-        // ‹È–¼‚©‚çjsonƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+        // æ›²åã‹ã‚‰jsonãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
         InputJsonData inputJson = JsonUtility.FromJson<InputJsonData>(inputSongName);
 
-        notesNum = inputJson.notes.Length; // ‘ƒm[ƒc”İ’è
+        notesNum = inputJson.notes.Length; // ç·ãƒãƒ¼ãƒ„æ•°è¨­å®š
 
         for (int i = 0;i < inputJson.notes.Length;i++)
         {
-            // ƒm[ƒc‚Ì¶¬ŠÔİ’è
+            // ãƒãƒ¼ãƒ„ã®ç”Ÿæˆæ™‚é–“è¨­å®š
             float distance = frame / (inputJson.BPM * inputJson.notes[i].LPB);
             float beatSec  = distance * (float)inputJson.notes[i].LPB;
             float time = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset + 0.01f;
-            // ƒm[ƒcî•ñ‚ğƒŠƒXƒg‚É’Ç‰Á
+            // ãƒãƒ¼ãƒ„æƒ…å ±ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ 
             notesTime.Add(time);
             lanesNum.Add(inputJson.notes[i].block);
             notesType.Add(inputJson.notes[i].type);
 
-            // ƒm[ƒc¶¬
+            // ãƒãƒ¼ãƒ„ç”Ÿæˆ
             CreateNote(inputJson.notes[i], time);
         }
     }
 
     /// <summary>
-    /// ƒm[ƒc¶¬
+    /// ãƒãƒ¼ãƒ„ç”Ÿæˆ
     /// </summary>
-    /// <param name="notesData">ƒm[ƒcƒf[ƒ^</param>
+    /// <param name="notesData">ãƒãƒ¼ãƒ„ãƒ‡ãƒ¼ã‚¿</param>
     void CreateNote(Notes notesData,float time)
     {
-        // ¶¬À•WŒvZ
+        // ç”Ÿæˆåº§æ¨™è¨ˆç®—
         float z = time * NotesSpeed;
-        Debug.Log("ƒm[ƒcƒ^ƒCƒv "+ notesData.type);
-        // ƒŒ[ƒ“‚É‡‚í‚¹‚½À•W
+        //Debug.Log("ãƒãƒ¼ãƒ„ã‚¿ã‚¤ãƒ— "+ notesData.type);
+        // ãƒ¬ãƒ¼ãƒ³ã«åˆã‚ã›ãŸåº§æ¨™
         switch (notesData.block)
         {
             case 0:

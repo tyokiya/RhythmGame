@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ƒm[ƒc‚ÌƒRƒ“ƒgƒ[ƒ‰[ƒNƒ‰ƒX
+/// ãƒãƒ¼ãƒ„ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚¯ãƒ©ã‚¹
 /// </summary>
 public class NotesController : MonoBehaviour
 {
-    [SerializeField] const float NotesSpeed = 5.0f; // ƒm[ƒc‚Ì‘¬“x’è”
+    [SerializeField] const float NotesSpeed = 5.0f; // ãƒãƒ¼ãƒ„ã®é€Ÿåº¦å®šæ•°
 
     void Update()
     {
