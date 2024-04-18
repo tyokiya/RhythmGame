@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class NotesController : MonoBehaviour
 {
-    [SerializeField] const int NotesSpeed = 5; // ノーツの速度定数
+    [SerializeField] const float NotesSpeed = 5.0f; // ノーツの速度定数
 
     void Update()
     {
