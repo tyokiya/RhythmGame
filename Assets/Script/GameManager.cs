@@ -8,8 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] SoundManager.MusicNameList music; // プレイする曲
     [SerializeField] SoundManager soundManager;
     [SerializeField] NoteGenerator notesGenerator;
-    [SerializeField] const float NotesSpeed = 5;   // ノーツ速度
-    [SerializeField] List<GameObject> notesObject; // ノーツのプレハブ
+    [SerializeField] const float NotesSpeed = 5.0f;   // ノーツ速度
 
     Action<SoundManager.MusicNameList> OnGameStart; // ゲームスタートイベント
 
@@ -31,11 +30,7 @@ public class GameManager : MonoBehaviour
     void SetNotesSpeed()
     {
         notesGenerator.SetNotesSpeed(NotesSpeed); // ジェネレーターのノーツスピード設定
-        // ノーツコントローラーの速度設定
-        for (int i = 0; i < notesObject.Count; i++)
-        {
-          
-        }
+        
     }
 
     /// <summary>

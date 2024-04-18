@@ -91,6 +91,7 @@ public class NoteGenerator : MonoBehaviour
 
             // ノーツ生成
             CreateNote(inputJson.notes[i], time);
+            notesObject[i].GetComponent<NotesController>().SetNotesSpeed(notesSpeed);
         }
     }
 
