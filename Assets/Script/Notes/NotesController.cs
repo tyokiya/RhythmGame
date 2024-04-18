@@ -1,16 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// ノーツのコントローラークラス
 /// </summary>
 public class NotesController : MonoBehaviour
 {
-    [SerializeField] const float NotesSpeed = 5.0f; // ノーツの速度定数
+    float notesSpeed;
 
     void Update()
     {
-        transform.position -= transform.forward * Time.deltaTime * NotesSpeed; 
+        transform.position -= transform.forward * Time.deltaTime * notesSpeed; 
+    }
+
+    public void SetNotesSpeed(float setNotesSpeed)
+    {
+        notesSpeed = setNotesSpeed;
     }
 }

@@ -13,17 +13,16 @@ public class SoundManager : MonoBehaviour
         オーバーライド,
     }
 
-    private void Start()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>(); // audioSorce取得
-        PlayMusic(MusicNameList.オーバーライド);
     }
 
     /// <summary>
     /// 楽曲を再生する
     /// </summary>
     /// <param name="musicName">流す曲名</param>
-    void PlayMusic(MusicNameList musicName)
+    public void PlayMusic(MusicNameList musicName)
     {
         // 再生する楽曲の取得
         musicAudioClip = (AudioClip)Resources.Load("Music/" + musicName);
