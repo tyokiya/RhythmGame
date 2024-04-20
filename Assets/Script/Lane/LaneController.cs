@@ -18,6 +18,21 @@ public class LaneController : MonoBehaviour
     }
 
     /// <summary>
+    /// レーンの種類の列挙型
+    /// </summary>
+    public enum Lane
+    {
+        Red = 0,
+        Green = 1,
+        Blue = 2,
+    }
+
+    // 各レーンの座標xの定数
+    public const float RedLanePosX = -1.1f;
+    public const float GreenLanePosX = 0f;
+    public const float BlueLanePosX = 1.1f;
+
+    /// <summary>
     /// レーンの発光
     /// </summary>
     void LuminescenceLane()

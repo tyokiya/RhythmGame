@@ -141,4 +141,34 @@ public class NoteGenerator : MonoBehaviour
                 break;
         }
     }
+
+    /// <summary>
+    /// レーン番号を変えす
+    /// </summary>
+    /// <param name="laneIndex">返すlanesNumのインデックス</param>
+    public int GetLaneNum(int laneIndex)
+    {
+        return lanesNum[laneIndex];
+    }
+
+    /// <summary>
+    /// ノーツの生成時間を返す
+    /// </summary>
+    /// <param name="Index">返すnoteTimeのインデックス</param>
+    /// <returns></returns>
+    public float GetNotesTie(int Index)
+    {
+        return notesTime[Index];
+    }
+
+    /// <summary>
+    /// ノーツデータの削除
+    /// </summary>
+    /// <param name="index">削除するデータのインデックス</param>
+    public void DeleteNoteData(int index)
+    {
+        notesTime.RemoveAt(index);
+        notesType.RemoveAt(index);
+        lanesNum.RemoveAt(index);
+    }
 }

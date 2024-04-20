@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// ゲームマネージャー
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     [SerializeField] SoundManager.MusicNameList music; // プレイする曲
