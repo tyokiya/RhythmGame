@@ -1,25 +1,22 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] SoundManager.MusicNameList music; // プレイする曲
-    [SerializeField] SoundManager soundManager;
-    [SerializeField] NoteGenerator notesGenerator;
-    [SerializeField] const float NotesSpeed = 5.0f;   // ノーツ速度
+    [SerializeField] SoundManager  soundManager;       // サウンドマネージャー
+    [SerializeField] NoteGenerator notesGenerator;     // ノーツジェネレーター
+    [SerializeField] float         notesSpeed = 5.0f;  // ノーツ速度
 
-    Action<SoundManager.MusicNameList> OnGameStart; // ゲームスタートイベント
+    // イベント
+    Action<SoundManager.MusicNameList> OnGameStart;    // ゲームスタートイベント
 
     void Start()
     {
         // イベント追加
         AddEvent();
-
         // ノーツ速度設定
         SetNotesSpeed();
-
         // スタートイベント呼び出し
         OnGameStart(music);
     }
@@ -29,8 +26,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void SetNotesSpeed()
     {
-        notesGenerator.SetNotesSpeed(NotesSpeed); // ジェネレーターのノーツスピード設定
-        
+        notesGenerator.SetNotesSpeed(notesSpeed); // ジェネレーターのノーツスピード設定     
     }
 
     /// <summary>

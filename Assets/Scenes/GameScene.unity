@@ -459,6 +459,7 @@ MonoBehaviour:
   music: 0
   soundManager: {fileID: 1093417432}
   notesGenerator: {fileID: 1648316990}
+  notesSpeed: 5
 --- !u!4 &875803495
 Transform:
   m_ObjectHideFlags: 0
@@ -1190,9 +1191,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
+  - {fileID: 875803495}
   - {fileID: 152787913}
   - {fileID: 2041571294}
   - {fileID: 1648316989}
   - {fileID: 1953327131}
   - {fileID: 1093417431}
-  - {fileID: 875803495}
