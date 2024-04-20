@@ -1,50 +1,50 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] SoundManager.MusicNameList music; // ƒvƒŒƒC‚·‚é‹È
-    [SerializeField] SoundManager  soundManager;       // ƒTƒEƒ“ƒhƒ}ƒl[ƒWƒƒ[
-    [SerializeField] NoteGenerator notesGenerator;     // ƒm[ƒcƒWƒFƒlƒŒ[ƒ^[
-    [SerializeField] float         notesSpeed = 5.0f;  // ƒm[ƒc‘¬“x
+    [SerializeField] SoundManager.MusicNameList music; // ãƒ—ãƒ¬ã‚¤ã™ã‚‹æ›²
+    [SerializeField] SoundManager  soundManager;       // ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
+    [SerializeField] NoteGenerator notesGenerator;     // ãƒãƒ¼ãƒ„ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ãƒ¼
+    [SerializeField] float         notesSpeed = 5.0f;  // ãƒãƒ¼ãƒ„é€Ÿåº¦
 
-    // ƒCƒxƒ“ƒg
-    Action<SoundManager.MusicNameList> OnGameStart;    // ƒQ[ƒ€ƒXƒ^[ƒgƒCƒxƒ“ƒg
+    // ã‚¤ãƒ™ãƒ³ãƒˆ
+    Action<SoundManager.MusicNameList> OnGameStart;    // ã‚²ãƒ¼ãƒ ã‚¹ã‚¿ãƒ¼ãƒˆã‚¤ãƒ™ãƒ³ãƒˆ
 
     void Start()
     {
-        // ƒCƒxƒ“ƒg’Ç‰Á
+        // ã‚¤ãƒ™ãƒ³ãƒˆè¿½åŠ 
         AddEvent();
-        // ƒm[ƒc‘¬“xİ’è
+        // ãƒãƒ¼ãƒ„é€Ÿåº¦è¨­å®š
         SetNotesSpeed();
-        // ƒXƒ^[ƒgƒCƒxƒ“ƒgŒÄ‚Ño‚µ
+        // ã‚¹ã‚¿ãƒ¼ãƒˆã‚¤ãƒ™ãƒ³ãƒˆå‘¼ã³å‡ºã—
         OnGameStart(music);
     }
 
     /// <summary>
-    /// ƒm[ƒc‘¬“x‚Ìİ’è
+    /// ãƒãƒ¼ãƒ„é€Ÿåº¦ã®è¨­å®š
     /// </summary>
     void SetNotesSpeed()
     {
-        notesGenerator.SetNotesSpeed(notesSpeed); // ƒWƒFƒlƒŒ[ƒ^[‚Ìƒm[ƒcƒXƒs[ƒhİ’è     
+        notesGenerator.SetNotesSpeed(notesSpeed); // ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ãƒ¼ã®ãƒãƒ¼ãƒ„ã‚¹ãƒ”ãƒ¼ãƒ‰è¨­å®š     
     }
 
     /// <summary>
-    /// ƒCƒxƒ“ƒg‚Ì’Ç‰Á
+    /// ã‚¤ãƒ™ãƒ³ãƒˆã®è¿½åŠ 
     /// </summary>
     void AddEvent()
     {
-        // ƒQ[ƒ€ƒXƒ^[ƒgƒCƒxƒ“ƒg
+        // ã‚²ãƒ¼ãƒ ã‚¹ã‚¿ãƒ¼ãƒˆã‚¤ãƒ™ãƒ³ãƒˆ
         OnGameStart += soundManager.PlayMusic;
         OnGameStart += notesGenerator.LoadMusicalScoreData;
     }
 
     /// <summary>
-    /// ƒCƒxƒ“ƒgíœ
+    /// ã‚¤ãƒ™ãƒ³ãƒˆå‰Šé™¤
     /// </summary>
     void DestroyEvent()
     {
-        // ƒQ[ƒ€ƒXƒ^[ƒgƒCƒxƒ“ƒg
+        // ã‚²ãƒ¼ãƒ ã‚¹ã‚¿ãƒ¼ãƒˆã‚¤ãƒ™ãƒ³ãƒˆ
         OnGameStart -= soundManager.PlayMusic;
         OnGameStart -= notesGenerator.LoadMusicalScoreData;
     }
