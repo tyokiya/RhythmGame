@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] NoteGenerator notesGenerator;     // ノーツジェネレーター
     [SerializeField] float         notesSpeed = 5.0f;  // ノーツ速度
 
-    // イベント
-    Action<SoundManager.MusicNameList> OnGameStart;    // ゲームスタートイベント
+    // イベントクラス宣言
+    GameEvent gameEvent = new GameEvent();
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         // ノーツ速度設定
         SetNotesSpeed();
         // スタートイベント呼び出し
-        OnGameStart(music);
+        gameEvent.OnGameStart(music);
     }
 
     /// <summary>
@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
     void AddEvent()
     {
         // ゲームスタートイベント
-        OnGameStart += soundManager.PlayMusic;
-        OnGameStart += notesGenerator.LoadMusicalScoreData;
+        gameEvent.OnGameStart += soundManager.PlayMusic;
+        gameEvent.OnGameStart += notesGenerator.LoadMusicalScoreData;
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     void DestroyEvent()
     {
         // ゲームスタートイベント
-        OnGameStart -= soundManager.PlayMusic;
-        OnGameStart -= notesGenerator.LoadMusicalScoreData;
+        gameEvent.OnGameStart -= soundManager.PlayMusic;
+        gameEvent.OnGameStart -= notesGenerator.LoadMusicalScoreData;
     }
 }

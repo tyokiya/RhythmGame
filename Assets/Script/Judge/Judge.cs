@@ -8,41 +8,52 @@ using UnityEngine;
 public class Judge : MonoBehaviour
 {
     //変数の宣言
-    [SerializeField] UIController UIController;  // UIコントローラー
-    [SerializeField] NoteGenerator notesManager; // ノーツマネージャー
+    [SerializeField] UIController uiController;    // UIコントローラー
+    [SerializeField] NoteGenerator notesGanerator; //ノーツジェネレーター
+
+    // 判定の番号の列挙型
+    enum JudgeNumber
+    {
+        Perfect = 0,
+        Great   = 1,
+        Bad     = 2,
+        Miss    = 3,
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))//〇キーが押されたとき
         {
-            if (notesManager.GetLaneNum(0) == ((int)LaneController.Lane.Red))//押されたボタンはレーンの番号とあっているか？
+            if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Red))//押されたボタンはレーンの番号とあっているか？
             {
                 /*
                 本来ノーツをたたく時間と実際にたたいた時間がどれくらいずれているかを求め、
                 その絶対値をJudgement関数に送る
                 たたくノーツが常にList内の一番初めにあるため参照するindexは0
                 */
-                Judgement(GetABS(Time.time - notesManager.GetNotesTie(0)));                
+                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0)));                
             }
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if (notesManager.GetLaneNum(0) == ((int)LaneController.Lane.Green))
+            if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Green))
             {
-                Judgement(GetABS(Time.time - notesManager.GetNotesTie(0)));
+                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0)));
             }
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            if (notesManager.GetLaneNum(0) == ((int)LaneController.Lane.Blue))
+            if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Blue))
             {
-                Judgement(GetABS(Time.time - notesManager.GetNotesTie(0)));
+                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0)));
             }
         }
 
-        if (Time.time > notesManager.GetNotesTie(0) + 0.2f)//本来ノーツをたたくべき時間から0.2秒たっても入力がなかった場合
+        if (Time.time > notesGanerator.GetNotesTie(0) + 0.2f)//本来ノーツをたたくべき時間から0.2秒たっても入力がなかった場合
         {
-            
-            notesManager.DeleteNoteData(0); // ノーツデータの削除命令
+            // 判定結果の表示命令
+            uiController.DisplayJudge(notesGanerator.GetLaneNum(0),(int)JudgeNumber.Miss);
+            notesGanerator.DeleteNoteData(0); // ノーツデータの削除命令
             Debug.Log("Miss");
             //ミス
         }
@@ -52,24 +63,25 @@ public class Judge : MonoBehaviour
         if (timeLag <= 0.10f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.1秒以下だったら
         {
             Debug.Log("Perfect");
-            
-            notesManager.DeleteNoteData(0);
+            // 判定結果の表示命令
+            uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Perfect);
+            notesGanerator.DeleteNoteData(0);
         }
         else
         {
             if (timeLag <= 0.15f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
             {
                 Debug.Log("Great");
-                
-                notesManager.DeleteNoteData(0);
+                uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Great);
+                notesGanerator.DeleteNoteData(0);
             }
             else
             {
                 if (timeLag <= 0.20f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.2秒以下だったら
                 {
                     Debug.Log("Bad");
-                    
-                    notesManager.DeleteNoteData(0);
+                    uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Bad);
+                    notesGanerator.DeleteNoteData(0);
                 }
             }
         }

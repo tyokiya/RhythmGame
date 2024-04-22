@@ -20,7 +20,7 @@ public class LaneController : MonoBehaviour
     /// <summary>
     /// レーンの種類の列挙型
     /// </summary>
-    public enum Lane
+    public enum LaneColor
     {
         Red = 0,
         Green = 1,
