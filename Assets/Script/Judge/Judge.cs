@@ -54,7 +54,7 @@ public class Judge : MonoBehaviour
             // 判定結果の表示命令
             uiController.DisplayJudge(notesGanerator.GetLaneNum(0),(int)JudgeNumber.Miss);
             notesGanerator.DeleteNoteData(0); // ノーツデータの削除命令
-            Debug.Log("Miss");
+            // Debug.Log("Miss");
             //ミス
         }
     }
@@ -62,7 +62,7 @@ public class Judge : MonoBehaviour
     {
         if (timeLag <= 0.10f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.1秒以下だったら
         {
-            Debug.Log("Perfect");
+            // Debug.Log("Perfect");
             // 判定結果の表示命令
             uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Perfect);
             notesGanerator.DeleteNoteData(0);
@@ -71,7 +71,7 @@ public class Judge : MonoBehaviour
         {
             if (timeLag <= 0.15f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
             {
-                Debug.Log("Great");
+                // Debug.Log("Great");
                 uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Great);
                 notesGanerator.DeleteNoteData(0);
             }
@@ -79,7 +79,7 @@ public class Judge : MonoBehaviour
             {
                 if (timeLag <= 0.20f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.2秒以下だったら
                 {
-                    Debug.Log("Bad");
+                    // Debug.Log("Bad");
                     uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Bad);
                     notesGanerator.DeleteNoteData(0);
                 }
