@@ -27,11 +27,11 @@ public class UIController : MonoBehaviour
         }
         else if (laneNum == (int)LaneController.LaneColor.Green) // 緑レーン
         {
-            Instantiate(JugeText[judge], new Vector3(LaneController.GreenLanePosX, 0, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), CreatJudgeTextTransform);
+            Instantiate(JugeText[judge], new Vector3(LaneController.GreenLanePosX, 1.1f, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), CreatJudgeTextTransform);
         }
         else                                                     // 青レーン
         {
-            Instantiate(JugeText[judge], new Vector3(LaneController.BlueLanePosX, 0, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), CreatJudgeTextTransform);
+            Instantiate(JugeText[judge], new Vector3(LaneController.BlueLanePosX, 1.1f, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), CreatJudgeTextTransform);
         }        
     }
 }
