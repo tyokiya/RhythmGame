@@ -10,6 +10,7 @@ public class Judge : MonoBehaviour
     //変数の宣言
     [SerializeField] UIController uiController;    // UIコントローラー
     [SerializeField] NoteGenerator notesGanerator; //ノーツジェネレーター
+    [SerializeField] SoundController soundController;
 
     // 判定の番号の列挙型
     enum JudgeNumber
@@ -66,6 +67,7 @@ public class Judge : MonoBehaviour
             // 判定結果の表示命令
             uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Perfect);
             notesGanerator.DeleteNoteData(0);
+            soundController.PlySE(SoundController.SEList.tapSE);
         }
         else
         {
@@ -74,6 +76,7 @@ public class Judge : MonoBehaviour
                 // Debug.Log("Great");
                 uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Great);
                 notesGanerator.DeleteNoteData(0);
+                soundController.PlySE(SoundController.SEList.tapSE);
             }
             else
             {
@@ -82,6 +85,7 @@ public class Judge : MonoBehaviour
                     // Debug.Log("Bad");
                     uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Bad);
                     notesGanerator.DeleteNoteData(0);
+                    soundController.PlySE(SoundController.SEList.tapSE);
                 }
             }
         }

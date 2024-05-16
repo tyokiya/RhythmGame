@@ -5,5 +5,5 @@ using System;
 /// </summary>
 public class GameEvent
 {
-    public Action<SoundManager.MusicNameList> OnGameStart; // ゲームスタートイベント
+    public Action<SoundController.MusicNameList> OnGameStart; // ゲームスタートイベント
 }

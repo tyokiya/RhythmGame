@@ -69,7 +69,7 @@ public class NoteGenerator : MonoBehaviour
     /// 譜面データの読み込み
     /// </summary>
     /// <param name="songName">曲名</param>
-    public void LoadMusicalScoreData(SoundManager.MusicNameList songName)
+    public void LoadMusicalScoreData(SoundController.MusicNameList songName)
     {
         // 曲名取得
         string inputSongName = Resources.Load<TextAsset>(songName.ToString()).ToString();

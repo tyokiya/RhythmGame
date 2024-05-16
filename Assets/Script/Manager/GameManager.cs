@@ -6,8 +6,8 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] SoundManager.MusicNameList music; // プレイする曲
-    [SerializeField] SoundManager  soundManager;       // サウンドマネージャー
+    [SerializeField] SoundController.MusicNameList music; // プレイする曲
+    [SerializeField] SoundController  soundManager;       // サウンドマネージャー
     [SerializeField] NoteGenerator notesGenerator;     // ノーツジェネレーター
     [SerializeField] float         notesSpeed = 5.0f;  // ノーツ速度
 
