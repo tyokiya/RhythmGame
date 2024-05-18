@@ -635,9 +635,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music: 0
-  soundManager: {fileID: 1093417432}
+  soundController: {fileID: 1093417432}
+  judgeController: {fileID: 0}
   notesGenerator: {fileID: 1648316990}
-  notesSpeed: 10
+  notesSpeed: 2
 --- !u!4 &875803495
 Transform:
   m_ObjectHideFlags: 0
@@ -947,6 +948,8 @@ MonoBehaviour:
   seAudioSource: {fileID: 1808547076}
   seList:
   - {fileID: 8300000, guid: 67740bea3501233419e3ab126a6db705, type: 3}
+  musicVolume: 0.1
+  seVolume: 0
 --- !u!1 &1207265771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,7 +1177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff4b4c278bcef94b9b250db7adfffca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteObject:
+  noteObjectPrefab:
   - {fileID: 415904194204989163, guid: 8fffa48e30f06034b91dbe1e4591d11c, type: 3}
   - {fileID: 415904194204989163, guid: 4b5c9af7b76782749a010a312c981263, type: 3}
   createNotesTransform: {fileID: 1953327131}

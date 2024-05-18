@@ -6,7 +6,9 @@ public class SoundController : MonoBehaviour
 {
     [SerializeField] AudioSource musicAudioSource; // 楽曲再生用audioSource
     [SerializeField] AudioSource seAudioSource;    // SE再生用audioSource    
-    [SerializeField] List<AudioClip> seList;
+    [SerializeField] List<AudioClip> seList;       // SEのAudioClipリスト
+    [SerializeField] float musicVolume = 0.5f;
+    [SerializeField] float seVolume = 1.0f;
     AudioClip musicAudioClip; // 再生する楽曲のaudioClip
 
     // 再生する楽曲の名前リスト
@@ -20,14 +22,27 @@ public class SoundController : MonoBehaviour
         tapSE = 0,
     }
 
+    void Start()
+    {
+        musicAudioSource.volume = musicVolume;
+        seAudioSource.volume = seVolume;
+    }
+
     /// <summary>
-    /// 楽曲を再生する
+    /// 再生する楽曲の読み込み
     /// </summary>
     /// <param name="musicName">流す曲名</param>
-    public void PlayMusic(MusicNameList musicName)
+    public void LoadMusic(MusicNameList musicName)
     {
         // 再生する楽曲の取得
         musicAudioClip = (AudioClip)Resources.Load("Music/" + musicName);
+    }
+
+    /// <summary>
+    /// 楽曲を再生する
+    /// </summary>
+    public void PlayMusic()
+    {        
         // 楽曲の再生
         musicAudioSource.PlayOneShot(musicAudioClip);
     }

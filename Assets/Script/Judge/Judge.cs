@@ -11,6 +11,8 @@ public class Judge : MonoBehaviour
     [SerializeField] UIController uiController;    // UIコントローラー
     [SerializeField] NoteGenerator notesGanerator; //ノーツジェネレーター
     [SerializeField] SoundController soundController;
+    float gameStartTIme; // ゲーム開始時の時間
+    bool isGameStart = false;   // ゲーム開始フラグ
 
     // 判定の番号の列挙型
     enum JudgeNumber
@@ -32,25 +34,25 @@ public class Judge : MonoBehaviour
                 その絶対値をJudgement関数に送る
                 たたくノーツが常にList内の一番初めにあるため参照するindexは0
                 */
-                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0)));                
+                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) + gameStartTIme));                
             }
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Green))
             {
-                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0)));
+                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) + gameStartTIme));
             }
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
             if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Blue))
             {
-                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0)));
+                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) + gameStartTIme));
             }
         }
 
-        if (Time.time > notesGanerator.GetNotesTie(0) + 0.2f)//本来ノーツをたたくべき時間から0.2秒たっても入力がなかった場合
+        if (Time.time > notesGanerator.GetNotesTie(0) + gameStartTIme + 0.2f)//本来ノーツをたたくべき時間から0.2秒たっても入力がなかった場合
         {
             // 判定結果の表示命令
             uiController.DisplayJudge(notesGanerator.GetLaneNum(0),(int)JudgeNumber.Miss);
@@ -100,5 +102,11 @@ public class Judge : MonoBehaviour
         {
             return -num;
         }
+    }
+
+    public void SetGameStart()
+    {
+        gameStartTIme = Time.time; // ゲーム開発時間をセット
+        isGameStart = true;        // ゲーム開始フラグを立てる
     }
 }
