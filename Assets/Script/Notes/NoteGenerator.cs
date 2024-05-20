@@ -37,9 +37,10 @@ public class NoteGenerator : MonoBehaviour
     List<int> lanesNum = new List<int>();   // 降ってくるレーンの番号
     List<int> notesType = new List<int>();   // 降ってくるノーツの種類番号
     List<float> notesTime = new List<float>(); // ノーツが判定線と重なる時間
-    List<GameObject> notesObject = new List<GameObject>(); //ノーツオブジェクト
+    List<GameObject> notesObject = new List<GameObject>(); // ノーツオブジェクト
 
-    [SerializeField] List<GameObject> noteObjectPrefab; // ノーツプレハブ
+    [SerializeField] List<GameObject> normalNoteObjectPrefab; // ノーマルノーツプレハブ
+    [SerializeField] List<GameObject> longNoteObjectPrefab;   // ロングノーツプレハブ
     [SerializeField] Transform createNotesTransform;    // 生成したノーツを入れるtransform
 
     /// <summary>
@@ -110,31 +111,31 @@ public class NoteGenerator : MonoBehaviour
             case 0:
                 if(notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.NormalNote - 1], new Vector3(-1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(-1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
                 }
                 else if(notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.LongNote - 1], new Vector3(-1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(-1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
                 }
                 break;
             case 1:
                 if (notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.NormalNote - 1], new Vector3(0, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(0, 0.5f, z), Quaternion.identity, createNotesTransform));
                 }
                 else if (notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.LongNote - 1], new Vector3(0, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(0, 0.5f, z), Quaternion.identity, createNotesTransform));
                 }
                 break;
             case 2:
                 if (notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.NormalNote - 1], new Vector3(1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
                 }
                 else if (notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.LongNote - 1], new Vector3(1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
                 }
                 break;
             default:
