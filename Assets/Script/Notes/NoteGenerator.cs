@@ -39,8 +39,8 @@ public class NoteGenerator : MonoBehaviour
     List<float> notesTime = new List<float>(); // ノーツが判定線と重なる時間
     List<GameObject> notesObject = new List<GameObject>(); //ノーツオブジェクト
 
-    [SerializeField] List<GameObject> noteObject;    // ノーツプレハブ
-    [SerializeField] Transform createNotesTransform; // 生成したノーツを入れるtransform
+    [SerializeField] List<GameObject> noteObjectPrefab; // ノーツプレハブ
+    [SerializeField] Transform createNotesTransform;    // 生成したノーツを入れるtransform
 
     /// <summary>
     /// ノーツの種類の列挙型
@@ -69,7 +69,7 @@ public class NoteGenerator : MonoBehaviour
     /// 譜面データの読み込み
     /// </summary>
     /// <param name="songName">曲名</param>
-    public void LoadMusicalScoreData(SoundManager.MusicNameList songName)
+    public void LoadMusicalScoreData(SoundController.MusicNameList songName)
     {
         // 曲名取得
         string inputSongName = Resources.Load<TextAsset>(songName.ToString()).ToString();
@@ -110,35 +110,76 @@ public class NoteGenerator : MonoBehaviour
             case 0:
                 if(notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(noteObject[(int)NotesType.NormalNote - 1], new Vector3(-1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.NormalNote - 1], new Vector3(-1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
                 }
                 else if(notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(noteObject[(int)NotesType.LongNote - 1], new Vector3(-1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.LongNote - 1], new Vector3(-1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
                 }
                 break;
             case 1:
                 if (notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(noteObject[(int)NotesType.NormalNote - 1], new Vector3(0, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.NormalNote - 1], new Vector3(0, 0.47f, z), Quaternion.identity, createNotesTransform));
                 }
                 else if (notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(noteObject[(int)NotesType.LongNote - 1], new Vector3(0, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.LongNote - 1], new Vector3(0, 0.47f, z), Quaternion.identity, createNotesTransform));
                 }
                 break;
             case 2:
                 if (notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(noteObject[(int)NotesType.NormalNote - 1], new Vector3(1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.NormalNote - 1], new Vector3(1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
                 }
                 else if (notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(noteObject[(int)NotesType.LongNote - 1], new Vector3(1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(noteObjectPrefab[(int)NotesType.LongNote - 1], new Vector3(1.1f, 0.47f, z), Quaternion.identity, createNotesTransform));
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// レーン番号を変えす
+    /// </summary>
+    /// <param name="laneIndex">返すlanesNumのインデックス</param>
+    public int GetLaneNum(int laneIndex)
+    {
+        return lanesNum[laneIndex];
+    }
+
+    /// <summary>
+    /// ノーツの生成時間を返す
+    /// </summary>
+    /// <param name="Index">返すnoteTimeのインデックス</param>
+    /// <returns></returns>
+    public float GetNotesTie(int Index)
+    {
+        return notesTime[Index];
+    }
+
+    /// <summary>
+    /// ノーツデータにゲームスタートフラグをセット
+    /// </summary>
+    public void SetGameStart()
+    {
+        for(int i = 0;i < notesObject.Count;i++)
+        {
+            notesObject[i].GetComponent<NotesController>().SetIsGameStart();
+        }
+    }
+
+    /// <summary>
+    /// ノーツデータの削除
+    /// </summary>
+    /// <param name="index">削除するデータのインデックス</param>
+    public void DeleteNoteData(int index)
+    {
+        notesTime.RemoveAt(index);
+        notesType.RemoveAt(index);
+        lanesNum.RemoveAt(index);
     }
 }
