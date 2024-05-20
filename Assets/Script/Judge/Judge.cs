@@ -25,71 +25,91 @@ public class Judge : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))//〇キーが押されたとき
+        if (isGameStart)
         {
-            if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Red))//押されたボタンはレーンの番号とあっているか？
+            if (Input.GetKeyDown(KeyCode.F))//〇キーが押されたとき
             {
                 /*
-                本来ノーツをたたく時間と実際にたたいた時間がどれくらいずれているかを求め、
-                その絶対値をJudgement関数に送る
-                たたくノーツが常にList内の一番初めにあるため参照するindexは0
+                本来ノーツをたたく時間と実際にたたいた時間がどれくらいずれているかを求め、その絶対値をJudgement関数に送る            
+                たたくノーツが常にList内の一番初めにあるため参照するindexは0、3レーンあるため上から0.1.2
                 */
-                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) + gameStartTIme));                
+                if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Red))//押されたボタンはレーンの番号とあっているか？
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) - gameStartTIme), 0);
+                }
+                else if (notesGanerator.GetLaneNum(1) == ((int)LaneController.LaneColor.Red))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(1) - gameStartTIme), 1);
+                }
+                else if (notesGanerator.GetLaneNum(2) == ((int)LaneController.LaneColor.Red))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(2) - gameStartTIme), 2);
+                }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Green))
+            if (Input.GetKeyDown(KeyCode.J))
             {
-                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) + gameStartTIme));
+                if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Green))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) - gameStartTIme), 0);
+                }
+                else if (notesGanerator.GetLaneNum(1) == ((int)LaneController.LaneColor.Green))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(1) - gameStartTIme), 1);
+                }
+                else if (notesGanerator.GetLaneNum(2) == ((int)LaneController.LaneColor.Green))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(2) - gameStartTIme), 2);
+                }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Blue))
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) + gameStartTIme));
+                if (notesGanerator.GetLaneNum(0) == ((int)LaneController.LaneColor.Blue))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(0) - gameStartTIme), 0);
+                }
+                else if (notesGanerator.GetLaneNum(1) == ((int)LaneController.LaneColor.Blue))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(1) - gameStartTIme), 1);
+                }
+                else if (notesGanerator.GetLaneNum(2) == ((int)LaneController.LaneColor.Blue))
+                {
+                    Judgement(GetABS(Time.time - notesGanerator.GetNotesTie(2) - gameStartTIme), 2);
+                }
             }
-        }
 
-        if (Time.time > notesGanerator.GetNotesTie(0) + gameStartTIme + 0.2f)//本来ノーツをたたくべき時間から0.2秒たっても入力がなかった場合
-        {
-            // 判定結果の表示命令
-            uiController.DisplayJudge(notesGanerator.GetLaneNum(0),(int)JudgeNumber.Miss);
-            notesGanerator.DeleteNoteData(0); // ノーツデータの削除命令
-            // Debug.Log("Miss");
-            //ミス
+            if (Time.time > notesGanerator.GetNotesTie(0) + gameStartTIme + 0.2f)//本来ノーツをたたくべき時間から0.2秒たっても入力がなかった場合
+            {
+                // 判定結果の表示命令
+                uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Miss);
+                notesGanerator.DeleteNoteData(0); // ノーツデータの削除命令
+                                                  // Debug.Log("Miss");
+                                                  //ミス
+            }
         }
     }
-    void Judgement(float timeLag)
+    void Judgement(float timeLag, int indexNum)
     {
         if (timeLag <= 0.10f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.1秒以下だったら
         {
             // Debug.Log("Perfect");
             // 判定結果の表示命令
-            uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Perfect);
-            notesGanerator.DeleteNoteData(0);
+            uiController.DisplayJudge(notesGanerator.GetLaneNum(indexNum), (int)JudgeNumber.Perfect);
+            notesGanerator.DeleteNoteData(indexNum);
             soundController.PlySE(SoundController.SEList.tapSE);
         }
-        else
+        else if (timeLag <= 0.15f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
         {
-            if (timeLag <= 0.15f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
-            {
-                // Debug.Log("Great");
-                uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Great);
-                notesGanerator.DeleteNoteData(0);
-                soundController.PlySE(SoundController.SEList.tapSE);
-            }
-            else
-            {
-                if (timeLag <= 0.20f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.2秒以下だったら
-                {
-                    // Debug.Log("Bad");
-                    uiController.DisplayJudge(notesGanerator.GetLaneNum(0), (int)JudgeNumber.Bad);
-                    notesGanerator.DeleteNoteData(0);
-                    soundController.PlySE(SoundController.SEList.tapSE);
-                }
-            }
+            // Debug.Log("Great");
+            uiController.DisplayJudge(notesGanerator.GetLaneNum(indexNum), (int)JudgeNumber.Great);
+            notesGanerator.DeleteNoteData(indexNum);
+            soundController.PlySE(SoundController.SEList.tapSE);
+        }
+        else if (timeLag <= 0.20f)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.2秒以下だったら
+        {
+            // Debug.Log("Bad");
+            uiController.DisplayJudge(notesGanerator.GetLaneNum(indexNum), (int)JudgeNumber.Bad);
+            notesGanerator.DeleteNoteData(indexNum);
+            soundController.PlySE(SoundController.SEList.tapSE);
         }
     }
     float GetABS(float num)//引数の絶対値を返す関数

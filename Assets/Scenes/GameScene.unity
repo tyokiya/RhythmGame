@@ -636,9 +636,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music: 0
   soundController: {fileID: 1093417432}
-  judgeController: {fileID: 0}
+  judgeController: {fileID: 1432264273}
   notesGenerator: {fileID: 1648316990}
-  notesSpeed: 2
+  notesSpeed: 8
 --- !u!4 &875803495
 Transform:
   m_ObjectHideFlags: 0
