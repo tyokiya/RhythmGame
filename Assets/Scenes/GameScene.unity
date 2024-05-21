@@ -949,7 +949,7 @@ MonoBehaviour:
   seList:
   - {fileID: 8300000, guid: 67740bea3501233419e3ab126a6db705, type: 3}
   musicVolume: 0.1
-  seVolume: 0.3
+  seVolume: 0
 --- !u!1 &1207265771
 GameObject:
   m_ObjectHideFlags: 0

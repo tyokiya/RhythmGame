@@ -55,6 +55,13 @@ public class NoteGenerator : MonoBehaviour
     float notesSpeed;
     const float frame = 60.0f;
 
+    bool redLaneLongNotesFlg = false;
+    bool greenLaneLongNotesFlg = false;
+    bool blueLaneLongNotesFlg = false;
+    float redLaneLongNotesStartPosZ;
+    float greenLaneLongNotesStartPosZ;
+    float blueLaneLongNotesStartPosZ;
+
     void OnEnable()
     {
         notesNum = 0;        // 総ノーツ数初期化
@@ -103,7 +110,7 @@ public class NoteGenerator : MonoBehaviour
     void CreateNote(Notes notesData,float time)
     {
         // 生成座標計算
-        float z = time * notesSpeed ;
+        float CreateObjectPosZ = time * notesSpeed ;
         //Debug.Log("ノーツタイプ "+ notesData.type);
         // レーンに合わせた座標
         switch (notesData.block)
@@ -111,31 +118,46 @@ public class NoteGenerator : MonoBehaviour
             case 0:
                 if(notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(-1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(-1.1f, 0.5f, CreateObjectPosZ), Quaternion.identity, createNotesTransform));
                 }
                 else if(notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(-1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
+                    if(redLaneLongNotesFlg == false)
+                    {
+                        redLaneLongNotesFlg = true;
+                        redLaneLongNotesStartPosZ = CreateObjectPosZ;
+                    }
+                    else
+                    {
+                        // ロングノーツ用の生成座標Z計算
+                        float longNotesCreatePosZ = redLaneLongNotesStartPosZ + CreateObjectPosZ / 2;
+                        // ロングノーツ生成
+                        GameObject createLongNotes = Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(-1.1f, 0.5f, longNotesCreatePosZ), Quaternion.identity, createNotesTransform);
+                        // 始点ノーツの座標設定
+                        GameObject startNotes = transform.Find("StartNotes").gameObject;
+                        redLaneLongNotesFlg = false;
+                    }
+                    
                 }
                 break;
             case 1:
                 if (notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(0, 0.5f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createNotesTransform));
                 }
                 else if (notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(0, 0.5f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createNotesTransform));
                 }
                 break;
             case 2:
                 if (notesData.type == (int)NotesType.NormalNote)
                 {
-                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(normalNoteObjectPrefab[notesData.block], new Vector3(1.1f, 0.5f, CreateObjectPosZ), Quaternion.identity, createNotesTransform));
                 }
                 else if (notesData.type == (int)NotesType.LongNote)
                 {
-                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(1.1f, 0.5f, z), Quaternion.identity, createNotesTransform));
+                    notesObject.Add(Instantiate(longNoteObjectPrefab[notesData.block], new Vector3(1.1f, 0.5f, CreateObjectPosZ), Quaternion.identity, createNotesTransform));
                 }
                 break;
             default:
