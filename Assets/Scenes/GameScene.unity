@@ -1214,8 +1214,8 @@ MonoBehaviour:
   - {fileID: 415904194204989163, guid: 6c4ac4032c97f0e4da690f3dffef90e7, type: 3}
   longNoteObjectPrefab:
   - {fileID: 415904194204989163, guid: 4b5c9af7b76782749a010a312c981263, type: 3}
-  - {fileID: 415904194204989163, guid: 4b5c9af7b76782749a010a312c981263, type: 3}
-  - {fileID: 415904194204989163, guid: 4b5c9af7b76782749a010a312c981263, type: 3}
+  - {fileID: 415904194204989163, guid: d27a67e7c0fa83648ac1f3a39a42503f, type: 3}
+  - {fileID: 415904194204989163, guid: 9fe9a34b02f942f40856205016ee0ac1, type: 3}
   createNormalNotesTransform: {fileID: 1953327131}
   createLongNotesTransform: {fileID: 1273272336}
 --- !u!1 &1728407810
