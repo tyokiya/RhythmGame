@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -23,10 +21,15 @@ public class NoteData : MonoBehaviour
     }
 
     /// <summary>
-    /// 生成したノーツを入れる
+    /// 生成したノーツプレハブを入れる
     /// </summary>
-    public void setNotesObject(GameObject createObject)
+    public void SetNotesObject(GameObject createObject)
     {
         noteObject = createObject;
+    }
+
+    public void DeleteNotes()
+    {
+        Destroy(noteObject);
     }
 }
