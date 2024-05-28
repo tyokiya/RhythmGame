@@ -234,7 +234,7 @@ public class NoteGenerator : MonoBehaviour
     /// <param name="laneIndex">返すlanesNumのインデックス</param>
     public int GetLaneNum(int laneIndex)
     {
-        return normalNotesDataList[laneIndex].laneNum/*lanesNum[laneIndex]*/;
+        return normalNotesDataList[laneIndex].laneNum;
     }
 
     /// <summary>
