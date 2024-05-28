@@ -19,10 +19,12 @@ public class NotesController : MonoBehaviour
     public void SetNotesSpeed(float setNotesSpeed)
     {
         notesSpeed = setNotesSpeed;
+        Debug.Log("スピード設定");
     }
 
     public void SetIsGameStart()
     {
         isGameStart = true;
+        Debug.Log("スタートフラグ");
     }
 }

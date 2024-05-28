@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5086512900361970046}
-  - component: {fileID: -8186978831409115440}
+  - component: {fileID: 6757104755113531040}
   m_Layer: 0
-  m_Name: RedLongNotes
+  m_Name: BlueLongNotes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 2837812585137526643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8186978831409115440
+--- !u!114 &6757104755113531040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8ee76d0e286370849a15775d3b483efb, type: 2}
+  - {fileID: 2100000, guid: 78add6f5cd4799f4cab91e879cf1e7bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

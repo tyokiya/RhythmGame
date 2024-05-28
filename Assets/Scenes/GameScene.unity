@@ -949,7 +949,7 @@ MonoBehaviour:
   seList:
   - {fileID: 8300000, guid: 67740bea3501233419e3ab126a6db705, type: 3}
   musicVolume: 0.1
-  seVolume: 0.3
+  seVolume: 0
 --- !u!1 &1207265771
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,6 +973,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207265771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1273272335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1273272336}
+  m_Layer: 0
+  m_Name: CreateLongNotes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1273272336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273272335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1183,9 +1214,10 @@ MonoBehaviour:
   - {fileID: 415904194204989163, guid: 6c4ac4032c97f0e4da690f3dffef90e7, type: 3}
   longNoteObjectPrefab:
   - {fileID: 415904194204989163, guid: 4b5c9af7b76782749a010a312c981263, type: 3}
-  - {fileID: 415904194204989163, guid: 4b5c9af7b76782749a010a312c981263, type: 3}
-  - {fileID: 415904194204989163, guid: 4b5c9af7b76782749a010a312c981263, type: 3}
-  createNotesTransform: {fileID: 1953327131}
+  - {fileID: 415904194204989163, guid: d27a67e7c0fa83648ac1f3a39a42503f, type: 3}
+  - {fileID: 415904194204989163, guid: 9fe9a34b02f942f40856205016ee0ac1, type: 3}
+  createNormalNotesTransform: {fileID: 1953327131}
+  createLongNotesTransform: {fileID: 1273272336}
 --- !u!1 &1728407810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,7 +1461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1953327131}
   m_Layer: 0
-  m_Name: CreateNotes
+  m_Name: CreateNormalNotes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1500,4 +1532,5 @@ SceneRoots:
   - {fileID: 2041571294}
   - {fileID: 1648316989}
   - {fileID: 1953327131}
+  - {fileID: 1273272336}
   - {fileID: 1207265772}

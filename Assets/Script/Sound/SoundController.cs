@@ -15,6 +15,7 @@ public class SoundController : MonoBehaviour
     public enum MusicNameList
     {
         オーバーライド,
+        ロングノーツテスター,
     }
 
     public enum SEList
