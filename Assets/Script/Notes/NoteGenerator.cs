@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,8 +34,10 @@ public class NoteGenerator : MonoBehaviour
 {
     int notesNum;    // 総ノーツ数
 
-    List<GameObject> middleNotesObject = new List<GameObject>(); // 生成したノーツオブジェクト
-    List<NoteData> normalNotesDataList = new List<NoteData>();         // 生成したノーツデータのリスト
+    List<NoteData> middleNotesDataList_Red = new List<NoteData>(); 　// 生成したノーツデータリスト赤
+    List<NoteData> middleNotesDataList_Green = new List<NoteData>(); // 生成したノーツデータリスト緑
+    List<NoteData> middleNotesDataList_Blue = new List<NoteData>();  // 生成したノーツデータリスト青
+    List<NoteData> normalNotesDataList = new List<NoteData>();   // 生成したノーツデータのリスト
 
     [SerializeField] List<GameObject> normalNoteObjectPrefab; // ノーマルノーツプレハブ
     [SerializeField] List<GameObject> longNoteObjectPrefab;   // ロングノーツプレハブ
@@ -93,11 +94,10 @@ public class NoteGenerator : MonoBehaviour
             float beatSec  = distance * (float)inputJson.notes[i].LPB;
             float time = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset * 0.01f;
             // ノーツ情報をデータクラスに追加
-            NoteData newData = new NoteData();
+            NoteData newData = gameObject.AddComponent<NoteData>();
             newData.SetNotesData(time, inputJson.notes[i].block, inputJson.notes[i].type);
 
             // ノーツ生成
-            Debug.Log("ノーツタイプ" + inputJson.notes[i].type);
             CreateNote(newData);
 
             // 生成したノーツデータをリストに追加
@@ -105,14 +105,7 @@ public class NoteGenerator : MonoBehaviour
         }
 
         // 生成したノーツにスピード設定
-        for(int i = 0; i < normalNotesDataList.Count; i++)
-        {
-            normalNotesDataList[i].noteObject.GetComponent<NotesController>().SetNotesSpeed(notesSpeed);
-        }
-        for(int i = 0; i < middleNotesObject.Count; i++)
-        {
-            middleNotesObject[i].GetComponent<NotesController>().SetNotesSpeed(notesSpeed);
-        }
+        SetSpeed();        
     }
 
     /// <summary>
@@ -137,26 +130,32 @@ public class NoteGenerator : MonoBehaviour
                 {
                     if (redLaneLongNotesFlg == false)
                     {
-                        Debug.Log("ロングノーツフラグ");
+                        //Debug.Log("ロングノーツフラグ(赤)");
                         redLaneLongNotesFlg = true;
                         redLaneLongNotesStartPosZ = CreateObjectPosZ;
                         // 始点ノーツ生成
-                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createLongNotesTransform));
+                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(-1.1f, 0.5f, CreateObjectPosZ), Quaternion.identity, createNormalNotesTransform));
                     }
                     else if (redLaneLongNotesFlg == true)
                     {
-                        Debug.Log("ロングノーツ生成");
+                        //Debug.Log("ロングノーツ生成(赤)");
                         // 終点ノーツ生成
-                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createLongNotesTransform));
-                        // ロングノーツ用の生成座標Z計算
+                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(-1.1f, 0.5f, CreateObjectPosZ), Quaternion.identity, createNormalNotesTransform));
+                        // 中間用の生成座標Z計算
                         float longNotesCreatePosZ = redLaneLongNotesStartPosZ + ((CreateObjectPosZ - redLaneLongNotesStartPosZ) / 2);
+
+                        // 中間ノーツデータクラスの生成と初期化処理
+                        NoteData middleNoteData = gameObject.AddComponent<NoteData>();
+                        middleNoteData.SetNotesData(notesData.time, notesData.laneNum, ((int)NotesType.LongNote));
                         // 中間ノーツの生成
-                        GameObject createLongNotes = Instantiate(longNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, longNotesCreatePosZ), Quaternion.identity, createLongNotesTransform);
+                        GameObject createLongNotes = Instantiate(longNoteObjectPrefab[notesData.laneNum], new Vector3(-1.1f, 0.5f, longNotesCreatePosZ), Quaternion.identity, createLongNotesTransform);
                         // スケール変更
                         createLongNotes.transform.localScale = new Vector3(1, 1, (CreateObjectPosZ - redLaneLongNotesStartPosZ));
-                        // 中間ノーツをリストに追加
-                        middleNotesObject.Add(createLongNotes);
-
+                        // 生成したノーツをデータクラスに追加
+                        middleNoteData.SetNotesObject(createLongNotes);
+                        // 中間ノーツをレーンに合わせたデータリストに追加
+                        AddMiddoleNoteData(middleNoteData);
+                        
                         redLaneLongNotesFlg = false;
                     }
                 }
@@ -170,23 +169,31 @@ public class NoteGenerator : MonoBehaviour
                 {
                     if(greenLaneLongNotesFlg == false)
                     {
+                        //Debug.Log("ロングノーツフラグ(緑)");
                         greenLaneLongNotesFlg = true;
                         greenLaneLongNotesStartPosZ = CreateObjectPosZ;
                         // 始点ノーツ生成
-                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createLongNotesTransform));
+                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createNormalNotesTransform));
                     }
                     else if(greenLaneLongNotesFlg == true)
                     {
+                        //Debug.Log("ロングノーツ生成(緑)");
                         // 終点ノーツ生成
-                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createLongNotesTransform));
-                        // ロングノーツ用の生成座標Z計算
+                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createNormalNotesTransform));
+                        // 中間用の生成座標Z計算
                         float longNotesCreatePosZ = greenLaneLongNotesStartPosZ + ((CreateObjectPosZ - greenLaneLongNotesStartPosZ) / 2);
+
+                        // 中間ノーツデータクラスの生成と初期化処理
+                        NoteData middleNoteData = gameObject.AddComponent<NoteData>();
+                        middleNoteData.SetNotesData(notesData.time, notesData.laneNum, ((int)NotesType.LongNote));
                         // 中間ノーツの生成
                         GameObject createLongNotes = Instantiate(longNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, longNotesCreatePosZ), Quaternion.identity, createLongNotesTransform);
                         // スケール変更
                         createLongNotes.transform.localScale = new Vector3(1, 1, (CreateObjectPosZ - greenLaneLongNotesStartPosZ));
-                        // 中間ノーツをリストに追加
-                        middleNotesObject.Add(createLongNotes);
+                        // 生成したノーツをデータクラスに追加
+                        middleNoteData.SetNotesObject(createLongNotes);
+                        // 中間ノーツをレーンに合わせたデータリストに追加
+                        AddMiddoleNoteData(middleNoteData);
 
                         greenLaneLongNotesFlg = false;
                     }
@@ -201,23 +208,31 @@ public class NoteGenerator : MonoBehaviour
                 {
                     if (blueLaneLongNotesFlg == false)
                     {
+                        //Debug.Log("ロングノーツフラグ(青)");
                         blueLaneLongNotesFlg = true;
                         blueLaneLongNotesStartPosZ = CreateObjectPosZ;
                         // 始点ノーツ生成
-                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createLongNotesTransform));
+                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(1.1f, 0.5f, CreateObjectPosZ), Quaternion.identity, createNormalNotesTransform));
                     }
                     else if (blueLaneLongNotesFlg == true)
                     {
+                        //Debug.Log("ロングノーツ生成(青)");
                         // 終点ノーツ生成
-                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, CreateObjectPosZ), Quaternion.identity, createLongNotesTransform));
-                        // ロングノーツ用の生成座標Z計算
+                        notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], new Vector3(1.1f, 0.5f, CreateObjectPosZ), Quaternion.identity, createNormalNotesTransform));
+                        // 中間用の生成座標Z計算
                         float longNotesCreatePosZ = blueLaneLongNotesStartPosZ + ((CreateObjectPosZ - blueLaneLongNotesStartPosZ) / 2);
+
+                        // 中間ノーツデータクラスの生成と初期化処理
+                        NoteData middleNoteData = gameObject.AddComponent<NoteData>();
+                        middleNoteData.SetNotesData(notesData.time, notesData.laneNum, ((int)NotesType.LongNote));
                         // 中間ノーツの生成
-                        GameObject createLongNotes = Instantiate(longNoteObjectPrefab[notesData.laneNum], new Vector3(0, 0.5f, longNotesCreatePosZ), Quaternion.identity, createLongNotesTransform);
+                        GameObject createLongNotes = Instantiate(longNoteObjectPrefab[notesData.laneNum], new Vector3(1.1f, 0.5f, longNotesCreatePosZ), Quaternion.identity, createLongNotesTransform);
                         // スケール変更
                         createLongNotes.transform.localScale = new Vector3(1, 1, (CreateObjectPosZ - blueLaneLongNotesStartPosZ));
-                        // 中間ノーツをリストに追加
-                        middleNotesObject.Add(createLongNotes);
+                        // 生成したノーツをデータクラスに追加
+                        middleNoteData.SetNotesObject(createLongNotes);
+                        // 中間ノーツをレーンに合わせたデータリストに追加
+                        AddMiddoleNoteData(middleNoteData);
 
                         blueLaneLongNotesFlg = false;
                     }
@@ -231,25 +246,48 @@ public class NoteGenerator : MonoBehaviour
     /// <summary>
     /// レーン番号を変えす
     /// </summary>
-    /// <param name="laneIndex">返すlanesNumのインデックス</param>
-    public int GetLaneNum(int laneIndex)
+    /// <param name="notesIndex">返すlanesNumのインデックス</param>
+    public int GetLaneColor(int notesIndex)
     {
-        return normalNotesDataList[laneIndex].laneNum;
+        return normalNotesDataList[notesIndex].laneNum;
     }
 
     /// <summary>
     /// ノーツの生成時間を返す
     /// </summary>
-    /// <param name="index">返すnoteTimeのインデックス</param>
+    /// <param name="notesIndex">返すnoteTimeのインデックス</param>
     /// <returns></returns>
-    public float GetNotesTieme(int index)
+    public float GetNotesTieme(int notesIndex)
     {
-        return normalNotesDataList[index].time;
+        return normalNotesDataList[notesIndex].time;
     }
 
-    public int GetNotesType(int index)
+    public int GetNotesType(int notesIndex)
     {
-        return normalNotesDataList[index].type;
+        return normalNotesDataList[notesIndex].type;
+    }
+
+    /// <summary>
+    /// ノーツのスピード設定
+    /// </summary>
+    void SetSpeed()
+    {
+        for (int i = 0; i < normalNotesDataList.Count; i++)
+        {
+            normalNotesDataList[i].noteObject.GetComponent<NotesController>().SetNotesSpeed(notesSpeed);
+        }
+        for (int i = 0; i < middleNotesDataList_Red.Count; i++)
+        {
+            middleNotesDataList_Red[i].noteObject.GetComponent<MiddleNotesController>().SetNotesSpeed(notesSpeed);
+        }
+        for (int i = 0; i < middleNotesDataList_Green.Count; i++)
+        {
+            middleNotesDataList_Green[i].noteObject.GetComponent<MiddleNotesController>().SetNotesSpeed(notesSpeed);
+        }
+        for (int i = 0; i < middleNotesDataList_Blue.Count; i++)
+        {
+            middleNotesDataList_Blue[i].noteObject.GetComponent<MiddleNotesController>().SetNotesSpeed(notesSpeed);
+        }
     }
 
     /// <summary>
@@ -263,17 +301,80 @@ public class NoteGenerator : MonoBehaviour
             normalNotesDataList[i].noteObject.GetComponent<NotesController>().SetIsGameStart();
         } 
         // 中間ノーツ
-        for(int i = 0;i < middleNotesObject.Count; i++)
+        for(int i = 0;i < middleNotesDataList_Red.Count; i++)
         {
-            middleNotesObject[i].GetComponent<NotesController>().SetIsGameStart();
+            middleNotesDataList_Red[i].noteObject.GetComponent<MiddleNotesController>().SetIsGameStart();
+        }
+        for(int i=0;i<middleNotesDataList_Green.Count; i++)
+        {
+            middleNotesDataList_Green[i].noteObject.GetComponent<MiddleNotesController>().SetIsGameStart();
+        }
+        for (int i=0; i < middleNotesDataList_Blue.Count; i++)
+        {
+            middleNotesDataList_Blue[i].noteObject.GetComponent<MiddleNotesController>().SetIsGameStart();
         }
     }
 
     /// <summary>
-    /// ノーツデータの削除
+    /// ミドルノーツのデータ追加
+    /// </summary>
+    void AddMiddoleNoteData(NoteData setData)
+    {
+        // レーンに合わせたリストに追加
+        if (setData.laneNum == ((int)LaneController.LaneColor.Red)) middleNotesDataList_Red.Add(setData);
+        else if (setData.laneNum == ((int)(LaneController.LaneColor.Green))) middleNotesDataList_Green.Add(setData);
+        else if (setData.laneNum == ((int)LaneController.LaneColor.Blue)) middleNotesDataList_Blue.Add(setData);
+    }
+
+    /// <summary>
+    /// ホールド開始のフラグを立てる
+    /// </summary>
+    /// <param name="">フラグを立てるオブジェクトのインデックス</param>
+    public void SetStartChangeScale(LaneController.LaneColor laneColor)
+    {
+        switch(laneColor)
+        {
+            case LaneController.LaneColor.Red:
+                middleNotesDataList_Red[0].noteObject.GetComponent<MiddleNotesController>().SetStartHold();
+                break;
+            case LaneController.LaneColor.Green:               
+                middleNotesDataList_Green[0].noteObject.GetComponent<MiddleNotesController>().SetStartHold();
+                break;
+            case LaneController.LaneColor.Blue:
+                middleNotesDataList_Blue[0].noteObject.GetComponent<MiddleNotesController>().SetStartHold();
+                break;
+            default:
+                break;
+        }
+        
+    }
+
+    public void DeleteMiddleNoteData(LaneController.LaneColor laneColor)
+    {
+        switch (laneColor)
+        {
+            case LaneController.LaneColor.Red:
+                middleNotesDataList_Red[0].DeleteNotes();
+                middleNotesDataList_Red.RemoveAt(0);
+                break;
+            case LaneController.LaneColor.Green:
+                middleNotesDataList_Green[0].DeleteNotes();
+                middleNotesDataList_Green.RemoveAt(0);
+                break;
+            case LaneController.LaneColor.Blue:
+                middleNotesDataList_Blue[0].DeleteNotes();
+                middleNotesDataList_Blue.RemoveAt(0);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// ノーマルノーツデータの削除
     /// </summary>
     /// <param name="index">削除するデータのインデックス</param>
-    public void DeleteNoteData(int index)
+    public void DeleteNormalNoteData(int index)
     {
         normalNotesDataList[index].DeleteNotes();
         normalNotesDataList.RemoveAt(index);        

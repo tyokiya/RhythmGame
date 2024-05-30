@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5086512900361970046}
-  - component: {fileID: 6757104755113531040}
+  - component: {fileID: 1939404239525627357}
   m_Layer: 0
   m_Name: BlueLongNotes
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 2837812585137526643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6757104755113531040
+--- !u!114 &1939404239525627357
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 415904194204989163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73922bb3bb6c44646b6cb3e3371200ae, type: 3}
+  m_Script: {fileID: 11500000, guid: c93edcd4252cf264983522a2436e3f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1340647144300358400

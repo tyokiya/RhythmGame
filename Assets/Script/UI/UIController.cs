@@ -27,7 +27,6 @@ public class UIController : MonoBehaviour
         if (laneNum == (int)LaneController.LaneColor.Red)        // 赤レーン
         { 
             createObj = Instantiate(JugeText[judge], new Vector3(LaneController.RedLanePosX,1.1f,0),Quaternion.Euler(JugeTextEulerX, 0,0),CreatJudgeTextTransform);
-            Debug.Log("判定生成");
         }
         else if (laneNum == (int)LaneController.LaneColor.Green) // 緑レーン
         {
