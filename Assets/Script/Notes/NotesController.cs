@@ -5,8 +5,8 @@
 /// </summary>
 public class NotesController : MonoBehaviour
 {
-    protected float notesSpeed;
-    protected bool isGameStart = false;
+    float notesSpeed;
+    bool isGameStart = false;
 
     void Update()
     {
