@@ -12,19 +12,24 @@ public class NotesController : MonoBehaviour
     {
         if (isGameStart)
         {
-            transform.position -= transform.forward * Time.deltaTime * notesSpeed;
+            UpdatePos(); // 座標更新
         }        
+    }
+
+    void UpdatePos()
+    {
+        transform.position -= transform.forward * Time.deltaTime * notesSpeed;
     }
 
     public void SetNotesSpeed(float setNotesSpeed)
     {
         notesSpeed = setNotesSpeed;
-        Debug.Log("スピード設定");
+        //Debug.Log("スピード設定");
     }
 
     public void SetIsGameStart()
     {
         isGameStart = true;
-        Debug.Log("スタートフラグ");
+        //Debug.Log("スタートフラグ");
     }
 }
