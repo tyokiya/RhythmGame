@@ -6,7 +6,7 @@ using UnityEngine;
 public class NoteData : MonoBehaviour
 {
     public int laneNum;   // 降ってくるレーンの番号
-    public int type;      // 降ってくるノーツの種類番号
+    public int typeNum;      // 降ってくるノーツの種類番号
     public float time;    // ノーツが判定線と重なる時間
     public GameObject noteObject; // 生成したオブジェクトを入れる
 
@@ -17,7 +17,7 @@ public class NoteData : MonoBehaviour
     {
         this.time = notesTime;
         this.laneNum = laneNum;
-        this.type = notesType;
+        this.typeNum = notesType;
     }
 
     /// <summary>

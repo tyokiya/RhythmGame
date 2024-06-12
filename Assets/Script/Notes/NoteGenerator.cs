@@ -125,19 +125,19 @@ public class NoteGenerator : MonoBehaviour
     {
         // 生成座標計算
         float CreateObjectPosZ = notesData.time * notesSpeed ;
-        //Debug.Log("ノーツタイプ "+ normalNotesDataList.type);
+        //Debug.Log("ノーツタイプ "+ normalNotesDataList.typeNum);
         // レーンに合わせた座標
         switch (notesData.laneNum)
         {
             case 0:
                 // ノーマルノーツ生成座標計算
                 Vector3 createRedNormalNotesPos = new Vector3(LaneController.RedLanePosX, notesPosY, CreateObjectPosZ);
-                if (notesData.type == (int)NotesType.NormalNote)
+                if (notesData.typeNum == (int)NotesType.NormalNote)
                 {
                     // ノーツの生成とデータのセット
                     notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], createRedNormalNotesPos, Quaternion.identity, createNormalNotesTransform));
                 }
-                else if(notesData.type == (int)NotesType.LongNote)
+                else if(notesData.typeNum == (int)NotesType.LongNote)
                 {
                     if (redMiddleNotesTemporyData.generateFlg == false)
                     {
@@ -183,11 +183,11 @@ public class NoteGenerator : MonoBehaviour
             case 1:
                 // ノーマルノーツ生成座標計算
                 Vector3 createGreenNormalNotesPos = new Vector3(LaneController.GreenLanePosX, notesPosY, CreateObjectPosZ);
-                if (notesData.type == (int)NotesType.NormalNote)
+                if (notesData.typeNum == (int)NotesType.NormalNote)
                 {
                     notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], createGreenNormalNotesPos, Quaternion.identity, createNormalNotesTransform));
                 }
-                else if (notesData.type == (int)NotesType.LongNote)
+                else if (notesData.typeNum == (int)NotesType.LongNote)
                 {
                     if(greenMiddleNotesTemporyData.generateFlg == false)
                     {
@@ -232,11 +232,11 @@ public class NoteGenerator : MonoBehaviour
             case 2:
                 // ノーマルノーツ生成座標計算
                 Vector3 createBlueNormalNotesPos = new Vector3(LaneController.BlueLanePosX, notesPosY, CreateObjectPosZ);
-                if (notesData.type == (int)NotesType.NormalNote)
+                if (notesData.typeNum == (int)NotesType.NormalNote)
                 {
                     notesData.SetNotesObject(Instantiate(normalNoteObjectPrefab[notesData.laneNum], createBlueNormalNotesPos, Quaternion.identity, createNormalNotesTransform));
                 }
-                else if (notesData.type == (int)NotesType.LongNote)
+                else if (notesData.typeNum == (int)NotesType.LongNote)
                 {
                     if (blueMiddleNotesTemporyData.generateFlg == false)
                     {
@@ -304,7 +304,7 @@ public class NoteGenerator : MonoBehaviour
 
     public int GetNotesType(int notesIndex)
     {
-        return normalNotesDataList[notesIndex].type;
+        return normalNotesDataList[notesIndex].typeNum;
     }
 
     /// <summary>
@@ -366,6 +366,10 @@ public class NoteGenerator : MonoBehaviour
         else if (setData.laneNum == ((int)LaneController.LaneColor.Blue)) middleNotesDataList_Blue.Add(setData);
     }
 
+    /// <summary>
+    /// ミドルノーツのデータ削除
+    /// </summary>
+    /// <param name="laneColor">削除するミドルノーツのレーンカラー</param>
     public void DeleteMiddleNoteData(LaneController.LaneColor laneColor)
     {
         switch (laneColor)
