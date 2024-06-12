@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using static SoundController;
 
 /// <summary>
@@ -7,12 +6,11 @@ using static SoundController;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] SoundController.MusicNameList music; // プレイする曲
-    [SerializeField] SoundController  soundController;    // サウンドマネージャー
-    [SerializeField] Judge            judgeController;    // 判定
-    [SerializeField] NoteGenerator notesGenerator;        // ノーツジェネレーター
-    [SerializeField] float         notesSpeed = 5.0f;     // ノーツ速度
-    float startTime; // ゲーム開始時の時間
+    [SerializeField] MusicNameList music;              // プレイする曲
+    [SerializeField] SoundController  soundController; // サウンドマネージャー
+    [SerializeField] Judge            judgeController; // 判定
+    [SerializeField] NoteGenerator notesGenerator;     // ノーツジェネレーター
+    [SerializeField] float         notesSpeed = 5.0f;  // ノーツ速度
 
     // イベントクラス宣言
     GameEvent gameEvent = new GameEvent();
@@ -52,6 +50,7 @@ public class GameManager : MonoBehaviour
         notesGenerator.SetNotesSpeed(notesSpeed); // ジェネレーターのノーツスピード設定     
     }
 
+
     /// <summary>
     /// イベントの追加
     /// </summary>
@@ -69,6 +68,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// イベント削除
     /// </summary>
+    /// TODO ゲーム終了処理の実装時に呼ぶ
     void DestroyEvent()
     {
         // ゲームスタートイベント
