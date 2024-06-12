@@ -103,15 +103,15 @@ public class Judge : MonoBehaviour
     /// </summary>
     void HoldUpdate()
     {
-        if (Input.GetKey(KeyCode.J) && !isRedLaneHold)
+        if (Input.GetKey(KeyCode.J) && isRedLaneHold)
         {
             Debug.Log("赤ホールド中");
         }
-        if (Input.GetKey(KeyCode.J) && !isGreenLaneHold)
+        if (Input.GetKey(KeyCode.J) && isGreenLaneHold)
         {
             Debug.Log("緑ホールド中");
         }
-        if (Input.GetKey(KeyCode.J) && !isBlueLaneHold)
+        if (Input.GetKey(KeyCode.J) && isBlueLaneHold)
         {
             Debug.Log("青ホールド中");
         }
@@ -137,8 +137,6 @@ public class Judge : MonoBehaviour
             {
                 UpJudgement(GetABS(Time.time - notesGanerator.GetNotesTieme(2) - gameStartTIme), 2, LaneColor.Red);
             }
-
-            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false); // ホールドフラグを下す
         }
         if (Input.GetKeyUp(KeyCode.J) && isGreenLaneHold) // 緑レーン
         {
@@ -154,8 +152,6 @@ public class Judge : MonoBehaviour
             {
                 UpJudgement(GetABS(Time.time - notesGanerator.GetNotesTieme(2) - gameStartTIme), 2, LaneColor.Green);
             }
-
-            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false); 
         }
         if (Input.GetKeyUp(KeyCode.K) && isBlueLaneHold) // 青レーン
         {
@@ -171,8 +167,6 @@ public class Judge : MonoBehaviour
             {
                 UpJudgement(GetABS(Time.time - notesGanerator.GetNotesTieme(2) - gameStartTIme), 2, LaneColor.Blue);
             }
-
-            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false); 
         }
     }
 

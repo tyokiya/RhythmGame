@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         notesGenerator.SetNotesSpeed(notesSpeed); // ジェネレーターのノーツスピード設定     
     }
 
+
     /// <summary>
     /// イベントの追加
     /// </summary>
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// イベント削除
     /// </summary>
+    /// TODO ゲーム終了処理の実装時に呼ぶ
     void DestroyEvent()
     {
         // ゲームスタートイベント
