@@ -16,9 +16,15 @@ public class MiddleNotesController : MonoBehaviour
             UpdatePos(); // 座標更新
 
             // ホールド開始フラグの判定
-            if (holdStartTime + gameStartTIme < Time.time)
+            if (holdStartTime + gameStartTIme < Time.time && !isHold)
             {
                 isHold = true; // ホールドフラグを立てる
+            }
+
+            // ホールド終了フラグの判定
+            if(holdEndTime + gameStartTIme < Time.time)
+            {
+                isHold = false; // ホールドフラグを下ろす
             }
         }
 
@@ -39,8 +45,8 @@ public class MiddleNotesController : MonoBehaviour
     void ScaleUpdate()
     {
         float middleNotesEndPosZ = (holdEndTime + gameStartTIme - Time.time) * notesSpeed; // 現在のミドルノーツの終点座標計算
-        float middleNotesCenterPosZ = (middleNotesEndPosZ - transform.position.z) / 2;     // 現在のミドルノーツの中心座標Zの計算
-        transform.localScale = new Vector3(1, 1, (middleNotesEndPosZ - transform.position.z));
+        float middleNotesCenterPosZ = middleNotesEndPosZ / 2;     // 現在のミドルノーツの中心座標Zの計算
+        transform.localScale = new Vector3(1, 1, middleNotesEndPosZ);
         transform.position = new Vector3(transform.position.x, transform.position.y, middleNotesCenterPosZ);
     }
 

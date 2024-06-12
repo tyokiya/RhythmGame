@@ -241,7 +241,7 @@ public class Judge : MonoBehaviour
                 }
             }
 
-            notesGanerator.DeleteNormalNoteData(0); // ノーツデータの削除命令
+            notesGanerator.DeleteNormalNoteData(0); // ノーマルノーツデータの削除命令
         }
     }
 
