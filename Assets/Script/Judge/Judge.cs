@@ -23,7 +23,7 @@ public class Judge : MonoBehaviour
     const float GreatTime = 0.15f;
     const float BadTime = 0.2f;
     // 判定の番号の列挙型
-    enum JudgeNumber
+    public enum JudgeNumber
     {
         Perfect = 0,
         Great   = 1,
@@ -103,17 +103,34 @@ public class Judge : MonoBehaviour
     /// </summary>
     void HoldUpdate()
     {
-        if (Input.GetKey(KeyCode.J) && isRedLaneHold)
+        if (Input.GetKey(KeyCode.J) && isRedLaneHold) // 押せているとき
         {
             Debug.Log("赤ホールド中");
+            notesGanerator.CallLuminescence(true, LaneColor.Red); // 発光処理の呼び出し
         }
+        else if (isRedLaneHold)                         // 押せてないとき
+        {
+            notesGanerator.CallLuminescence(false, LaneColor.Red); // 発光処理終了の呼び出し
+        }
+
         if (Input.GetKey(KeyCode.J) && isGreenLaneHold)
         {
             Debug.Log("緑ホールド中");
+            notesGanerator.CallLuminescence(true, LaneColor.Green);
         }
+        else if (isGreenLaneHold)
+        {
+            notesGanerator.CallLuminescence(false, LaneColor.Green);
+        }
+
         if (Input.GetKey(KeyCode.J) && isBlueLaneHold)
         {
             Debug.Log("青ホールド中");
+            notesGanerator.CallLuminescence(true, LaneColor.Blue);
+        }
+        else if (isBlueLaneHold)
+        {
+            notesGanerator.CallLuminescence(false, LaneColor.Blue);
         }
     }
 
@@ -193,36 +210,36 @@ public class Judge : MonoBehaviour
                         if(isRedLaneHold)
                         {
                             // すでにホールド中だった場合はフラグを下ろす
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false);
+                            SetMiddleNotesFlg(((int)LaneColor.Red), false);
                             // 中間ノーツデータ削除
-                            notesGanerator.DeleteMiddleNoteData(LaneController.LaneColor.Red);
+                            notesGanerator.DeleteMiddleNoteData(LaneColor.Red);
                         }
                         else
                         {
                             // ホールド中でなければフラグを立てる
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), true);
+                            SetMiddleNotesFlg((int)LaneColor.Red, true);
                         }
                         break;
                     case 1:
                         if (isGreenLaneHold)
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false);
-                            notesGanerator.DeleteMiddleNoteData(LaneController.LaneColor.Green);
+                            SetMiddleNotesFlg(((int)LaneColor.Green), false);
+                            notesGanerator.DeleteMiddleNoteData(LaneColor.Green);
                         }
                         else if(!isGreenLaneHold)
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), true);
+                            SetMiddleNotesFlg(((int)LaneColor.Green), true);
                         }
                         break;
                     case 2:
                         if (isBlueLaneHold)
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false);
-                            notesGanerator.DeleteMiddleNoteData(LaneController.LaneColor.Blue);
+                            SetMiddleNotesFlg(((int)LaneColor.Blue), false);
+                            notesGanerator.DeleteMiddleNoteData(LaneColor.Blue);
                         }
                         else
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), true);
+                            SetMiddleNotesFlg(((int)LaneColor.Blue), true);
                         }
                         break;
                     default:

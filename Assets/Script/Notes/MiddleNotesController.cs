@@ -1,7 +1,9 @@
 using UnityEngine;
+using static LaneController;
 
 public class MiddleNotesController : MonoBehaviour
 {
+    [SerializeField] MeshRenderer renderer;
     float notesSpeed;
     bool isGameStart = false;
     bool isHold;         // ホールド中のフラグ
@@ -67,5 +69,38 @@ public class MiddleNotesController : MonoBehaviour
         isGameStart = true;
         gameStartTIme = Time.time; // 開始時間設定
         //Debug.Log("スタートフラグ");
+    }
+
+    /// <summary>
+    /// ノーツの発行処理セット
+    /// </summary>
+    /// <param name="flg">発光のフラグ</param>
+    /// <param name="laneColor">そのノーツのレーンカラー</param>
+    public void SetLuminescence(bool flg, LaneColor laneColor)
+    {
+        var material = renderer.material;
+        // 発光処理
+        if(flg)
+        {
+            switch(laneColor)
+            {
+                case LaneColor.Red:
+                    material.SetColor("_EmissionColor", Color.red);
+                    break; 
+                case LaneColor.Green:
+                    material.SetColor("_EmissionColor", Color.green);
+                    break;
+                case LaneColor.Blue:
+                    material.SetColor("_EmissionColor", Color.blue);
+                    break;
+                default:
+                    break;
+            }            
+        }
+        else // 発光終了
+        {
+            material.SetColor("_EmissionColor", Color.black);
+        }
+        
     }
 }

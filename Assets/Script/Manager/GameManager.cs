@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // フレーム固定
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 60;
         // ゲーム開始フラグを下ろす
         isGameStart = false;
         // イベント追加
