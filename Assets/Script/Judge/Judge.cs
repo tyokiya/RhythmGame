@@ -8,9 +8,11 @@ using static NoteGenerator;
 public class Judge : MonoBehaviour
 {
     //変数の宣言
-    [SerializeField] UIController uiController;    // UIコントローラー
-    [SerializeField] NoteGenerator notesGanerator; //ノーツジェネレーター
-    [SerializeField] SoundController soundController;
+    [SerializeField] UIController    uiController;    // UIコントローラー
+    [SerializeField] NoteGenerator   notesGanerator;  // ノーツジェネレーター
+    [SerializeField] SoundController soundController; // サウンドコントローラー
+    [SerializeField] ScoreCountor    scoreCountor;    //スコアコントローラー
+
     float gameStartTIme;        // ゲーム開始時の時間
     bool isGameStart = false;   // ゲーム開始フラグ
     // 各レーンのホールドノーツ中のフラグ
@@ -23,7 +25,7 @@ public class Judge : MonoBehaviour
     const float GreatTime = 0.15f;
     const float BadTime = 0.2f;
     // 判定の番号の列挙型
-    enum JudgeNumber
+    public enum JudgeNumber
     {
         Perfect = 0,
         Great   = 1,
@@ -103,17 +105,35 @@ public class Judge : MonoBehaviour
     /// </summary>
     void HoldUpdate()
     {
-        if (Input.GetKey(KeyCode.J) && isRedLaneHold)
+        if (Input.GetKey(KeyCode.J) && isRedLaneHold) // 押せているとき
         {
-            Debug.Log("赤ホールド中");
+            //Debug.Log("赤ホールド中");
+            scoreCountor.UpdateScore(NotesType.LongNote);             // 判定結果の表示命令
+            notesGanerator.CallLuminescence(true, LaneColor.Red); // 発光処理の呼び出し
         }
+        else if (isRedLaneHold)                         // 押せてないとき
+        {
+            notesGanerator.CallLuminescence(false, LaneColor.Red); // 発光処理終了の呼び出し
+        }
+
         if (Input.GetKey(KeyCode.J) && isGreenLaneHold)
         {
-            Debug.Log("緑ホールド中");
+            //Debug.Log("緑ホールド中");
+            notesGanerator.CallLuminescence(true, LaneColor.Green);
         }
+        else if (isGreenLaneHold)
+        {
+            notesGanerator.CallLuminescence(false, LaneColor.Green);
+        }
+
         if (Input.GetKey(KeyCode.J) && isBlueLaneHold)
         {
-            Debug.Log("青ホールド中");
+            //Debug.Log("青ホールド中");
+            notesGanerator.CallLuminescence(true, LaneColor.Blue);
+        }
+        else if (isBlueLaneHold)
+        {
+            notesGanerator.CallLuminescence(false, LaneColor.Blue);
         }
     }
 
@@ -180,11 +200,13 @@ public class Judge : MonoBehaviour
         {
             // 判定結果の表示命令
             uiController.DisplayJudge(notesGanerator.GetLaneColor(0), (int)JudgeNumber.Miss);
+            // スコア更新呼び出し
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Miss);
             // Debug.Log("Miss");
 
             // ミスノーツの種類判定
             // ロングノーツの場合のみ判定
-            if(notesGanerator.GetNotesType(0) == ((int)NotesType.LongNote))
+            if (notesGanerator.GetNotesType(0) == ((int)NotesType.LongNote))
             {
                 // すでにホールド中かホールド前の始点ノーツかで判定を変える
                 switch(notesGanerator.GetLaneColor(0))
@@ -193,36 +215,36 @@ public class Judge : MonoBehaviour
                         if(isRedLaneHold)
                         {
                             // すでにホールド中だった場合はフラグを下ろす
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false);
+                            SetMiddleNotesFlg(((int)LaneColor.Red), false);
                             // 中間ノーツデータ削除
-                            notesGanerator.DeleteMiddleNoteData(LaneController.LaneColor.Red);
+                            notesGanerator.DeleteMiddleNoteData(LaneColor.Red);
                         }
                         else
                         {
                             // ホールド中でなければフラグを立てる
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), true);
+                            SetMiddleNotesFlg((int)LaneColor.Red, true);
                         }
                         break;
                     case 1:
                         if (isGreenLaneHold)
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false);
-                            notesGanerator.DeleteMiddleNoteData(LaneController.LaneColor.Green);
+                            SetMiddleNotesFlg(((int)LaneColor.Green), false);
+                            notesGanerator.DeleteMiddleNoteData(LaneColor.Green);
                         }
                         else if(!isGreenLaneHold)
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), true);
+                            SetMiddleNotesFlg(((int)LaneColor.Green), true);
                         }
                         break;
                     case 2:
                         if (isBlueLaneHold)
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), false);
-                            notesGanerator.DeleteMiddleNoteData(LaneController.LaneColor.Blue);
+                            SetMiddleNotesFlg(((int)LaneColor.Blue), false);
+                            notesGanerator.DeleteMiddleNoteData(LaneColor.Blue);
                         }
                         else
                         {
-                            SetMiddleNotesFlg(notesGanerator.GetLaneColor(0), true);
+                            SetMiddleNotesFlg(((int)LaneColor.Blue), true);
                         }
                         break;
                     default:
@@ -245,19 +267,21 @@ public class Judge : MonoBehaviour
         {
             // Debug.Log("Perfect");            
             uiController.DisplayJudge(notesGanerator.GetLaneColor(indexNum), (int)JudgeNumber.Perfect); // 判定結果の表示命令     
-            soundController.PlySE(SoundController.SEList.tapSE);                                        // タップ音再生
+            soundController.PlySE(SoundController.SEList.tapSE);                                       　                // タップ音再生
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Perfect);                                // スコア更新呼び出し                                // スコア更新呼び出し
             // ロングノーツの時はホールドフラグを立てる
             if(notesGanerator.GetNotesType(indexNum) == ((int)NotesType.LongNote))
             {
-                SetMiddleNotesFlg(notesGanerator.GetLaneColor(indexNum),true);  　　　　　　　　　　　　　// ロングノーツの入力中フラグを立てる
+                SetMiddleNotesFlg(notesGanerator.GetLaneColor(indexNum),true); // ロングノーツの入力中フラグを立てる
             }
-            notesGanerator.DeleteNormalNoteData(indexNum);                                                // ノーツデータ削除命令
+            notesGanerator.DeleteNormalNoteData(indexNum);                                         // ノーツデータ削除命令
         }
         else if (timeLag <= GreatTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
         {
             // Debug.Log("Great");
             uiController.DisplayJudge(notesGanerator.GetLaneColor(indexNum), (int)JudgeNumber.Great);            
             soundController.PlySE(SoundController.SEList.tapSE);
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Great);
             if (notesGanerator.GetNotesType(indexNum) == ((int)NotesType.LongNote))
             {
                 SetMiddleNotesFlg(notesGanerator.GetLaneColor(indexNum),true);
@@ -269,6 +293,7 @@ public class Judge : MonoBehaviour
             // Debug.Log("Bad");
             uiController.DisplayJudge(notesGanerator.GetLaneColor(indexNum), (int)JudgeNumber.Bad);           
             soundController.PlySE(SoundController.SEList.tapSE);
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Bad);
             if (notesGanerator.GetNotesType(indexNum) == ((int)NotesType.LongNote))
             {
                 SetMiddleNotesFlg(notesGanerator.GetLaneColor(indexNum), true);
@@ -288,15 +313,17 @@ public class Judge : MonoBehaviour
         {
             // Debug.Log("Perfect");
             uiController.DisplayJudge(((int)laneColor), (int)JudgeNumber.Perfect); // 判定結果の表示命令
-            notesGanerator.DeleteNormalNoteData(indexNum);                         // ノーマルノーツの削除命令
-            notesGanerator.DeleteMiddleNoteData(laneColor);                        // ミドルノーツ削除命令
-            soundController.PlySE(SoundController.SEList.tapSE);                   // サウンド再生                                                                 
-            SetMiddleNotesFlg(((int)laneColor), false);                            // フラグを下ろす
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Perfect); // スコア更新呼び出し 
+            notesGanerator.DeleteNormalNoteData(indexNum);                                // ノーマルノーツの削除命令
+            notesGanerator.DeleteMiddleNoteData(laneColor);                                     // ミドルノーツ削除命令                               
+            soundController.PlySE(SoundController.SEList.tapSE);                          // サウンド再生                                                                 
+            SetMiddleNotesFlg(((int)laneColor), false);                         // フラグを下ろす
         }
         else if (timeLag <= GreatTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
         {
             // Debug.Log("Great");
             uiController.DisplayJudge(((int)laneColor), (int)JudgeNumber.Great);
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Great);
             notesGanerator.DeleteNormalNoteData(indexNum);
             notesGanerator.DeleteMiddleNoteData(laneColor);
             soundController.PlySE(SoundController.SEList.tapSE);
@@ -306,6 +333,7 @@ public class Judge : MonoBehaviour
         {
             // Debug.Log("Bad");
             uiController.DisplayJudge(((int)laneColor), (int)JudgeNumber.Bad);
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Bad);
             notesGanerator.DeleteNormalNoteData(indexNum);
             notesGanerator.DeleteMiddleNoteData(laneColor);
             soundController.PlySE(SoundController.SEList.tapSE);
@@ -313,7 +341,10 @@ public class Judge : MonoBehaviour
         }
     }
 
-    float GetABS(float num)//引数の絶対値を返す関数
+    /// <summary>
+    /// 引数の絶対値を返す関数
+    /// </summary>
+    float GetABS(float num)
     {
         if (num >= 0)
         {
