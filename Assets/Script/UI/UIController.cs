@@ -42,4 +42,9 @@ public class UIController : MonoBehaviour
         Destroy(createObj);
 
     }
+
+    void DrawScore()
+    {
+
+    }
 }
