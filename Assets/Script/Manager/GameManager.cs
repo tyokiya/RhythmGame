@@ -6,11 +6,12 @@ using static SoundController;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] MusicNameList music;              // プレイする曲
-    [SerializeField] SoundController  soundController; // サウンドマネージャー
-    [SerializeField] Judge            judgeController; // 判定
-    [SerializeField] NoteGenerator notesGenerator;     // ノーツジェネレーター
-    [SerializeField] float         notesSpeed = 5.0f;  // ノーツ速度
+    [SerializeField] MusicNameList    music;              // プレイする曲
+    [SerializeField] SoundController  soundController; 　 // サウンドマネージャー
+    [SerializeField] Judge            judgeController; 　 // 判定
+    [SerializeField] NoteGenerator    notesGenerator;     // ノーツジェネレーター
+    [SerializeField] ScoreCountor     scoreCountor;       // スコアコントローラー
+    [SerializeField] float            notesSpeed = 5.0f;  // ノーツ速度
 
     // イベントクラス宣言
     GameEvent gameEvent = new GameEvent();
@@ -19,21 +20,20 @@ public class GameManager : MonoBehaviour
     bool isGameStart; // ゲーム開始フラグ
 
     void Start()
-    {
-        // フレーム固定
-        Application.targetFrameRate = 60;
+    {        
         // ゲーム開始フラグを下ろす
         isGameStart = false;
         // イベント追加
         AddEvent();
         // ノーツ速度設定
-        SetNotesSpeed();
+        notesGenerator.SetNotesSpeed(notesSpeed);
         // データロードベント呼び出し
         gameEvent.OnDataLoad(music);
     }
 
     void Update()
     {
+        // ゲーム開始を待機
         if(!isGameStart && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("ゲーム開始");
@@ -41,15 +41,6 @@ public class GameManager : MonoBehaviour
             isGameStart = true;      // ゲーム開始フラグを立てる
         }
     }
-
-    /// <summary>
-    /// ノーツ速度の設定
-    /// </summary>
-    void SetNotesSpeed()
-    {
-        notesGenerator.SetNotesSpeed(notesSpeed); // ジェネレーターのノーツスピード設定     
-    }
-
 
     /// <summary>
     /// イベントの追加
@@ -63,6 +54,8 @@ public class GameManager : MonoBehaviour
         gameEvent.IsGameStart += soundController.PlayMusic;
         gameEvent.IsGameStart += notesGenerator.SetGameStart;
         gameEvent.IsGameStart += judgeController.SetGameStart;
+        // 初期化イベント
+        gameEvent.Initialize += scoreCountor.Initialized;
     }
 
     /// <summary>
@@ -78,5 +71,7 @@ public class GameManager : MonoBehaviour
         gameEvent.IsGameStart -= soundController.PlayMusic;
         gameEvent.IsGameStart -= notesGenerator.SetGameStart;
         gameEvent.IsGameStart -= judgeController.SetGameStart;
+        // 初期化イベント
+        gameEvent.Initialize -= scoreCountor.Initialized;
     }
 }
