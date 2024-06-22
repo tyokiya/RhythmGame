@@ -8,7 +8,7 @@ using static NoteGenerator;
 public class Judge : MonoBehaviour
 {
     //変数の宣言
-    [SerializeField] UIController    uiController;    // UIコントローラー
+    [SerializeField] UIManager    uiController;    // UIコントローラー
     [SerializeField] NoteGenerator   notesGanerator;  // ノーツジェネレーター
     [SerializeField] SoundController soundController; // サウンドコントローラー
     [SerializeField] ScoreCountor    scoreCountor;    //スコアコントローラー
@@ -105,7 +105,7 @@ public class Judge : MonoBehaviour
     /// </summary>
     void HoldUpdate()
     {
-        if (Input.GetKey(KeyCode.J) && isRedLaneHold) // 押せているとき
+        if (Input.GetKey(KeyCode.F) && isRedLaneHold) // 押せているとき
         {
             //Debug.Log("赤ホールド中");
             scoreCountor.UpdateScore(NotesType.LongNote);             // 判定結果の表示命令
@@ -126,7 +126,7 @@ public class Judge : MonoBehaviour
             notesGanerator.CallLuminescence(false, LaneColor.Green);
         }
 
-        if (Input.GetKey(KeyCode.J) && isBlueLaneHold)
+        if (Input.GetKey(KeyCode.K) && isBlueLaneHold)
         {
             //Debug.Log("青ホールド中");
             notesGanerator.CallLuminescence(true, LaneColor.Blue);
@@ -267,8 +267,8 @@ public class Judge : MonoBehaviour
         {
             // Debug.Log("Perfect");            
             uiController.DisplayJudge(notesGanerator.GetLaneColor(indexNum), (int)JudgeNumber.Perfect); // 判定結果の表示命令     
-            soundController.PlySE(SoundController.SEList.tapSE);                                       　                // タップ音再生
-            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Perfect);                                // スコア更新呼び出し                                // スコア更新呼び出し
+            soundController.PlySE(SoundController.SEList.tapSE);                                        // タップ音再生
+            scoreCountor.UpdateScore(NotesType.NormalNote, JudgeNumber.Perfect);                        // スコア更新呼び出し           
             // ロングノーツの時はホールドフラグを立てる
             if(notesGanerator.GetNotesType(indexNum) == ((int)NotesType.LongNote))
             {

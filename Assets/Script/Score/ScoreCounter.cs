@@ -5,8 +5,14 @@ using static Judge;
 public class ScoreCountor : MonoBehaviour
 {
     [SerializeField] FrameController frameController; // フレームコントローラー
+
     int score;
     int combo;
+    // 判定の獲得数
+    int perfectCount;
+    int greatCount;
+    int badCount;
+    int missCount;
 
     const int PerfectScore = 1000;
     const int GreatScore   = 100;
@@ -18,6 +24,11 @@ public class ScoreCountor : MonoBehaviour
         // スコアコンボ初期化
         score = 0;
         combo = 0;
+        // 判定数初期化
+        perfectCount = 0;
+        greatCount = 0;
+        badCount = 0;
+        missCount = 0;
     }
 
     /// <summary>
@@ -36,17 +47,21 @@ public class ScoreCountor : MonoBehaviour
                 case JudgeNumber.Perfect:               // パーフェクト
                     score += PerfectScore; // スコア加算
                     combo++;               // コンボ加算
+                    perfectCount++;        // カウント加算
                     break;
                 case JudgeNumber.Great:                 // グレート
                     score += GreatScore;
                     combo++;
+                    greatCount++;
                     break;
                 case JudgeNumber.Bad:                   // バッド
                     score += BadScore;
                     combo++;
+                    badCount++;
                     break;
                 case JudgeNumber.Miss:                  // ミス
-                    // 加算なし
+                    // スコア加算なし
+                    missCount++;
                     combo = 0; // コンボリセット
                     break;
                 default:
@@ -61,7 +76,16 @@ public class ScoreCountor : MonoBehaviour
             {
                 score += PerfectScore; // スコア加算
                 combo++;               // コンボ加算
+                perfectCount++;        // カウント加算
             }
         }
     }
+
+    // カウントのゲッター
+    public int GetPerfectNum() { return perfectCount; }
+    public int GetGreatNum() {  return greatCount; }
+    public int GetBadNum() {  return badCount; }
+    public int GetMissNum() {  return missCount; }
+    // スコアのゲッター
+    public int GetScore() { return score; }
 }
