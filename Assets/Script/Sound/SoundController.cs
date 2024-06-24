@@ -15,6 +15,7 @@ public class SoundController : MonoBehaviour
     {
         オーバーライド,
         ロングノーツテスター,
+        BadApple
     }
 
     public enum SEList

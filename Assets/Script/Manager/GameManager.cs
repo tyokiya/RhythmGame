@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     // フラグ
     bool isGameStart; // ゲーム開始フラグ
-
+    
     // 定数
     const float GameStartDelay = 3f;
 
