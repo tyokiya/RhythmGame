@@ -1752,9 +1752,9 @@ MonoBehaviour:
   judgeController: {fileID: 1432264273}
   notesGenerator: {fileID: 1648316990}
   scoreCountor: {fileID: 435584510}
-  notesSpeed: 10
+  notesSpeed: 15
   isTestMode: 0
-  musicStartTime_TestMode: 5
+  musicStartTime_TestMode: 16
 --- !u!4 &875803495
 Transform:
   m_ObjectHideFlags: 0
