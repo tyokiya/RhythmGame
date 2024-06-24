@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] ScoreCountor     scoreCountor;       // スコアコントローラー
     [SerializeField] float            notesSpeed = 5.0f;  // ノーツ速度
 
+    [Header("テストモード設定")]
+    [SerializeField] bool isTestMode = false;
+    [SerializeField] float musicStartTime_TestMode;
+
     // イベントクラス宣言
     GameEvent gameEvent = new GameEvent();
 
@@ -34,11 +38,22 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // ゲーム開始を待機
-        if(!isGameStart && Input.GetKeyDown(KeyCode.Space))
+        if (!isGameStart && Input.GetKeyDown(KeyCode.Space))
         {
+            
+
             Debug.Log("ゲーム開始");
             gameEvent.IsGameStart(); // ゲーム開始イベント呼出し
             isGameStart = true;      // ゲーム開始フラグを立てる
+
+            // テストモードのフラグが立っていたらテスト用のデータを設定
+            if (isTestMode)
+            {
+                Debug.Log("テストモード中");
+                soundController.SetTestMode(musicStartTime_TestMode); // 楽曲の再生時間設定
+                judgeController.SetTestMode(musicStartTime_TestMode); // 楽曲の再生時間に合わせて判定設定
+                notesGenerator.SetTestMode(musicStartTime_TestMode);  // 楽曲再生時間に合わせてノーツの座標設定
+            }
         }
     }
 

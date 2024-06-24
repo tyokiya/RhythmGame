@@ -168,7 +168,7 @@ public class NoteGenerator : MonoBehaviour
                         // スケール変更
                         createMiddleNotes.transform.localScale = new Vector3(1, 1, (CreateObjectPosZ - redMiddleNotesTemporyData.startPosZ));
                         // 中間ノーツのホールド時間を設定
-                        createMiddleNotes.GetComponent<MiddleNotesController>().SetMiddoleNotesTime(redMiddleNotesTemporyData.startTime, notesData.time);
+                        createMiddleNotes.GetComponent<MiddleNotesController>().SetMiddoleNotesHoldTime(redMiddleNotesTemporyData.startTime, notesData.time);
                         // 生成したノーツをデータクラスに追加
                         middleNoteData.SetNotesObject(createMiddleNotes);
                         // 中間ノーツをレーンに合わせたデータリストに追加
@@ -217,7 +217,7 @@ public class NoteGenerator : MonoBehaviour
                         // スケール変更
                         createMiddleNotes.transform.localScale = new Vector3(1, 1, (CreateObjectPosZ - greenMiddleNotesTemporyData.startPosZ));
                         // 中間ノーツのホールド終了時間を設定
-                        createMiddleNotes.GetComponent<MiddleNotesController>().SetMiddoleNotesTime(greenMiddleNotesTemporyData.startTime, notesData.time);
+                        createMiddleNotes.GetComponent<MiddleNotesController>().SetMiddoleNotesHoldTime(greenMiddleNotesTemporyData.startTime, notesData.time);
                         // 生成したノーツをデータクラスに追加
                         middleNoteData.SetNotesObject(createMiddleNotes);
                         // 中間ノーツをレーンに合わせたデータリストに追加
@@ -266,7 +266,7 @@ public class NoteGenerator : MonoBehaviour
                         // スケール変更
                         createMiddleNotes.transform.localScale = new Vector3(1, 1, (CreateObjectPosZ - blueMiddleNotesTemporyData.startPosZ));
                         // 中間ノーツのホールド終了時間を設定
-                        createMiddleNotes.GetComponent<MiddleNotesController>().SetMiddoleNotesTime(blueMiddleNotesTemporyData.startTime, notesData.time);
+                        createMiddleNotes.GetComponent<MiddleNotesController>().SetMiddoleNotesHoldTime(blueMiddleNotesTemporyData.startTime, notesData.time);
                         // 生成したノーツをデータクラスに追加
                         middleNoteData.SetNotesObject(createMiddleNotes);
                         // 中間ノーツをレーンに合わせたデータリストに追加
@@ -424,5 +424,33 @@ public class NoteGenerator : MonoBehaviour
     {
         normalNotesDataList[index].DeleteNotes();
         normalNotesDataList.RemoveAt(index);        
+    }
+
+    /// <summary>
+    /// テストモードで必要なデータの設定(テストモードで使用)
+    /// </summary>
+    /// <param name="startTime">楽曲再生開始時間</param>
+    public void SetTestMode(float startTime)
+    {
+
+        // 各ノーツデータにテストモードの設定
+        // ノーマルノーツ
+        for (int i = 0; i < normalNotesDataList.Count; i++)
+        {
+            normalNotesDataList[i].noteObject.GetComponent<NotesController>().SetTestMode(startTime);
+        }
+        // 中間ノーツ
+        for (int i = 0; i < middleNotesDataList_Red.Count; i++)
+        {
+            middleNotesDataList_Red[i].noteObject.GetComponent<MiddleNotesController>().SetTestMode(startTime);
+        }
+        for (int i = 0; i < middleNotesDataList_Green.Count; i++)
+        {
+            middleNotesDataList_Green[i].noteObject.GetComponent<MiddleNotesController>().SetTestMode(startTime);
+        }
+        for (int i = 0; i < middleNotesDataList_Blue.Count; i++)
+        {
+            middleNotesDataList_Blue[i].noteObject.GetComponent<MiddleNotesController>().SetTestMode(startTime);
+        }
     }
 }

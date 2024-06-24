@@ -42,7 +42,7 @@ public class SoundController : MonoBehaviour
     /// 楽曲を再生する
     /// </summary>
     public void PlayMusic()
-    {        
+    {
         // 楽曲の再生
         musicAudioSource.PlayOneShot(musicAudioClip);
     }
@@ -62,5 +62,19 @@ public class SoundController : MonoBehaviour
             default: 
                 break;
         }
+    }
+
+    /// <summary>
+    /// テストモードで必要なデータの設定(テストモードで使用)
+    /// </summary>
+    /// <param name="startTime">楽曲再生開始時間</param>
+    public void SetTestMode(float startTime)
+    {
+        musicAudioSource.Stop(); // 再生中の楽曲を一度止める
+
+        // clipを取得し指定された位置から再生
+        musicAudioSource.clip = musicAudioClip;
+        musicAudioSource.time = startTime; // 楽曲の開始時間設定
+        musicAudioSource.Play();
     }
 }
