@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 using static SoundController;
 
 /// <summary>
@@ -23,7 +25,10 @@ public class GameManager : MonoBehaviour
     // フラグ
     bool isGameStart; // ゲーム開始フラグ
 
-    void Start()
+    // 定数
+    const float GameStartDelay = 3f;
+
+    async void Start()
     {        
         // ゲーム開始フラグを下ろす
         isGameStart = false;
@@ -33,27 +38,21 @@ public class GameManager : MonoBehaviour
         notesGenerator.SetNotesSpeed(notesSpeed);
         // データロードベント呼び出し
         gameEvent.OnDataLoad(music);
-    }
 
-    void Update()
-    {
-        // ゲーム開始を待機
-        if (!isGameStart && Input.GetKeyDown(KeyCode.Space))
+        // GameStartDelay秒待機後ゲーム開始フラグ
+        await UniTask.Delay(TimeSpan.FromSeconds(GameStartDelay));
+
+        Debug.Log("ゲーム開始");
+        gameEvent.IsGameStart(); // ゲーム開始イベント呼出し
+        isGameStart = true;      // ゲーム開始フラグを立てる
+
+        // テストモードのフラグが立っていたらテスト用のデータを設定
+        if (isTestMode)
         {
-            
-
-            Debug.Log("ゲーム開始");
-            gameEvent.IsGameStart(); // ゲーム開始イベント呼出し
-            isGameStart = true;      // ゲーム開始フラグを立てる
-
-            // テストモードのフラグが立っていたらテスト用のデータを設定
-            if (isTestMode)
-            {
-                Debug.Log("テストモード中");
-                soundController.SetTestMode(musicStartTime_TestMode); // 楽曲の再生時間設定
-                judgeController.SetTestMode(musicStartTime_TestMode); // 楽曲の再生時間に合わせて判定設定
-                notesGenerator.SetTestMode(musicStartTime_TestMode);  // 楽曲再生時間に合わせてノーツの座標設定
-            }
+            Debug.Log("テストモード中");
+            soundController.SetTestMode(musicStartTime_TestMode); // 楽曲の再生時間設定
+            judgeController.SetTestMode(musicStartTime_TestMode); // 楽曲の再生時間に合わせて判定設定
+            notesGenerator.SetTestMode(musicStartTime_TestMode);  // 楽曲再生時間に合わせてノーツの座標設定
         }
     }
 
