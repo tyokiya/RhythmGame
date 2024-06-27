@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] MusicNameList    music;              // プレイする曲
     [SerializeField] SoundController  soundController; 　 // サウンドマネージャー
+    [SerializeField] UIManager        uiManager;          // UIマネージャー
     [SerializeField] Judge            judgeController; 　 // 判定
     [SerializeField] NoteGenerator    notesGenerator;     // ノーツジェネレーター
     [SerializeField] ScoreCountor     scoreCountor;       // スコアコントローラー
@@ -38,6 +39,8 @@ public class GameManager : MonoBehaviour
         notesGenerator.SetNotesSpeed(notesSpeed);
         // データロードベント呼び出し
         gameEvent.OnDataLoad(music);
+        // 初期化イベント呼び出し
+        gameEvent.Initialize();
 
         // GameStartDelay秒待機後ゲーム開始フラグ
         await UniTask.Delay(TimeSpan.FromSeconds(GameStartDelay));
@@ -68,8 +71,10 @@ public class GameManager : MonoBehaviour
         gameEvent.IsGameStart += soundController.PlayMusic;
         gameEvent.IsGameStart += notesGenerator.SetGameStart;
         gameEvent.IsGameStart += judgeController.SetGameStart;
+        gameEvent.IsGameStart += uiManager.ActiveOffGameStartObject;
         // 初期化イベント
         gameEvent.Initialize += scoreCountor.Initialized;
+        gameEvent.Initialize += uiManager.Initialize;
     }
 
     /// <summary>
@@ -85,7 +90,9 @@ public class GameManager : MonoBehaviour
         gameEvent.IsGameStart -= soundController.PlayMusic;
         gameEvent.IsGameStart -= notesGenerator.SetGameStart;
         gameEvent.IsGameStart -= judgeController.SetGameStart;
+        gameEvent.IsGameStart -= uiManager.ActiveOffGameStartObject;
         // 初期化イベント
         gameEvent.Initialize -= scoreCountor.Initialized;
+        gameEvent.Initialize -= uiManager.Initialize;
     }
 }
