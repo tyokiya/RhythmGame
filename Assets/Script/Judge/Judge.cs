@@ -21,9 +21,9 @@ public class Judge : MonoBehaviour
     bool isBlueLaneHold = false;
 
     // 判定の秒数定数
-    const float PerfectTime = 0.1f;
-    const float GreatTime = 0.15f;
-    const float BadTime = 0.2f;
+    const float PerfectTime = 0.05f;
+    const float GreatTime = 0.10f;
+    const float BadTime = 0.15f;
     // 判定の番号の列挙型
     public enum JudgeNumber
     {
@@ -263,7 +263,7 @@ public class Judge : MonoBehaviour
     /// <param name="indexNum">参照する要素数</param>
     void TapJudgement(float timeLag, int indexNum)
     {
-        if (timeLag <= PerfectTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.1秒以下だったら
+        if (timeLag <= PerfectTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.05秒以下だったら
         {
             // Debug.Log("Perfect");            
             uiController.DisplayJudge(notesGanerator.GetLaneColor(indexNum), (int)JudgeNumber.Perfect); // 判定結果の表示命令     
@@ -276,7 +276,7 @@ public class Judge : MonoBehaviour
             }
             notesGanerator.DeleteNormalNoteData(indexNum);                                         // ノーツデータ削除命令
         }
-        else if (timeLag <= GreatTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
+        else if (timeLag <= GreatTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.1秒以下だったら
         {
             // Debug.Log("Great");
             uiController.DisplayJudge(notesGanerator.GetLaneColor(indexNum), (int)JudgeNumber.Great);            
@@ -288,7 +288,7 @@ public class Judge : MonoBehaviour
             }
             notesGanerator.DeleteNormalNoteData(indexNum);
         }
-        else if (timeLag <= BadTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.2秒以下だったら
+        else if (timeLag <= BadTime)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
         {
             // Debug.Log("Bad");
             uiController.DisplayJudge(notesGanerator.GetLaneColor(indexNum), (int)JudgeNumber.Bad);           
@@ -384,5 +384,14 @@ public class Judge : MonoBehaviour
     {
         gameStartTIme = Time.time; // ゲーム開発時間をセット
         isGameStart = true;        // ゲーム開始フラグを立てる
+    }
+
+    /// <summary>
+    /// テストモードで必要なデータの設定(テストモードで使用)
+    /// </summary>
+    /// <param name="startTime">楽曲再生開始時間</param>
+    public void SetTestMode(float startTime)
+    {
+        gameStartTIme -= startTime; // ゲーム開発時間に楽曲再生時間の加算
     }
 }

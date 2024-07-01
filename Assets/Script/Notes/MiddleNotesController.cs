@@ -3,7 +3,7 @@ using static LaneController;
 
 public class MiddleNotesController : MonoBehaviour
 {
-    [SerializeField] MeshRenderer renderer;
+    [SerializeField] new MeshRenderer renderer;
     float notesSpeed;
     bool isGameStart = false;
     bool isHold;         // ホールド中のフラグ
@@ -47,12 +47,17 @@ public class MiddleNotesController : MonoBehaviour
     void ScaleUpdate()
     {
         float middleNotesEndPosZ = (holdEndTime + gameStartTIme - Time.time) * notesSpeed; // 現在のミドルノーツの終点座標計算
-        float middleNotesCenterPosZ = middleNotesEndPosZ / 2;     // 現在のミドルノーツの中心座標Zの計算
+        float middleNotesCenterPosZ = middleNotesEndPosZ / 2;                              // 現在のミドルノーツの中心座標Zの計算
         transform.localScale = new Vector3(1, 1, middleNotesEndPosZ);
         transform.position = new Vector3(transform.position.x, transform.position.y, middleNotesCenterPosZ);
     }
 
-    public void SetMiddoleNotesTime(float setStartTime, float setEndTime)
+    /// <summary>
+    /// ホールド開始時間と終了時間のセット
+    /// </summary>
+    /// <param name="setStartTime"></param>
+    /// <param name="setEndTime"></param>
+    public void SetMiddoleNotesHoldTime(float setStartTime, float setEndTime)
     {
         holdStartTime = setStartTime;
         holdEndTime = setEndTime;
@@ -102,5 +107,21 @@ public class MiddleNotesController : MonoBehaviour
             material.SetColor("_EmissionColor", Color.black);
         }
         
+    }
+
+    /// <summary>
+    /// テストモードで必要なデータの設定(テストモードで使用)
+    /// </summary>
+    /// <param name="startTime">楽曲再生開始時間</param>
+    public void SetTestMode(float startTime)
+    {
+        // 座標調整
+        Vector3 pos = this.transform.position; // ノーツオブジェクトのtransform取得
+        pos.z -= startTime * notesSpeed;       // スタート開始時間分の移動計算
+        this.transform.position = pos;         // 計算した座標を反映
+
+        // ホールド開始時間と終了時間の調整
+        holdStartTime -= startTime;
+        holdEndTime -= startTime;
     }
 }

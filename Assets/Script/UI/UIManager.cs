@@ -9,11 +9,13 @@ using TMPro;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] List<GameObject>      JugeText;                // 判定結果を表示するオブジェクトのリスト
-    [SerializeField] Transform             CreatJudgeTextTransform; // 生成した判定テキストを入れるtransform
-    [SerializeField] List<TextMeshProUGUI> JudgeCountTextList;      // 判定数のテキストリスト
-    [SerializeField] TextMeshProUGUI       ScoreText;               // スコアテキスト
+    [SerializeField] List<GameObject>      jugeText;                // 判定結果を表示するオブジェクトのリスト
+    [SerializeField] Transform             creatJudgeTextTransform; // 生成した判定テキストを入れるtransform
+    [SerializeField] List<TextMeshProUGUI> judgeCountTextList;      // 判定数のテキストリスト
+    [SerializeField] TextMeshProUGUI       scoreText;               // スコアテキスト
     [SerializeField] ScoreCountor          scoreController;         // スコアコントローラー
+    [SerializeField] GameObject            readyLogo;               // ゲームスタート前のロゴ
+
     // 定数
     const float JugeTextEulerX = 30.0f;
     const float JugeTextDestroyDelay = 1.0f; // 判定テキストの削除待機時間
@@ -45,15 +47,15 @@ public class UIManager : MonoBehaviour
         // レーンに応じてテキスト生成
         if (laneNum == (int)LaneController.LaneColor.Red)        // 赤レーン
         { 
-            createObj = Instantiate(JugeText[judge], new Vector3(LaneController.RedLanePosX,1.1f,0),Quaternion.Euler(JugeTextEulerX, 0,0),CreatJudgeTextTransform);
+            createObj = Instantiate(jugeText[judge], new Vector3(LaneController.RedLanePosX,1.1f,0),Quaternion.Euler(JugeTextEulerX, 0,0),creatJudgeTextTransform);
         }
         else if (laneNum == (int)LaneController.LaneColor.Green) // 緑レーン
         {
-            createObj = Instantiate(JugeText[judge], new Vector3(LaneController.GreenLanePosX, 1.1f, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), CreatJudgeTextTransform);
+            createObj = Instantiate(jugeText[judge], new Vector3(LaneController.GreenLanePosX, 1.1f, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), creatJudgeTextTransform);
         }
         else                                                     // 青レーン
         {
-            createObj = Instantiate(JugeText[judge], new Vector3(LaneController.BlueLanePosX, 1.1f, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), CreatJudgeTextTransform);
+            createObj = Instantiate(jugeText[judge], new Vector3(LaneController.BlueLanePosX, 1.1f, 0), Quaternion.Euler(JugeTextEulerX, 0, 0), creatJudgeTextTransform);
         }
 
         // JugeTextDeleteDelay秒待機後オブジェクト削除
@@ -64,17 +66,43 @@ public class UIManager : MonoBehaviour
     void DrawJudgeCount()
     {
         // パーフェクト数
-        JudgeCountTextList[((int)JudgeNum.Perfect)].text = scoreController.GetPerfectNum().ToString();
+        judgeCountTextList[((int)JudgeNum.Perfect)].text = scoreController.GetPerfectNum().ToString();
         // グレート
-        JudgeCountTextList[((int)JudgeNum.Greate)].text = scoreController.GetGreatNum().ToString();
+        judgeCountTextList[((int)JudgeNum.Greate)].text = scoreController.GetGreatNum().ToString();
         // バッド
-        JudgeCountTextList[((int)JudgeNum.Bad)].text = scoreController.GetBadNum().ToString();
+        judgeCountTextList[((int)JudgeNum.Bad)].text = scoreController.GetBadNum().ToString();
         // ミス
-        JudgeCountTextList[((int)JudgeNum.Miss)].text = scoreController.GetMissNum().ToString();
+        judgeCountTextList[((int)JudgeNum.Miss)].text = scoreController.GetMissNum().ToString();
     }
 
     void DrawScore()
     {
-        ScoreText.text = scoreController.GetScore().ToString();
+        scoreText.text = scoreController.GetScore().ToString();
+    }
+
+    /// <summary>
+    /// ゲームスタート時に不要なオブジェクトの非アクティブ化
+    /// </summary>
+    public void ActiveOffGameStartObject()
+    {
+        SetActiveRedyLogo(false); // ゲームスタート前のロゴ
+    }
+
+    /// <summary>
+    /// ゲームスタート前のロゴのアクティブ切り替え
+    /// </summary>
+    /// <param name="setFlg">セットするフラグ</param>
+    void SetActiveRedyLogo(bool setFlg)
+    {
+        readyLogo.SetActive(setFlg);
+    }
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public void Initialize()
+    {
+        readyLogo.SetActive(true); // ゲームスタート前のロゴアクティブ化
+
     }
 }
