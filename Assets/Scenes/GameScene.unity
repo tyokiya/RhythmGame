@@ -1831,7 +1831,7 @@ MonoBehaviour:
   scoreCountor: {fileID: 435584510}
   notesSpeed: 13
   isTestMode: 0
-  musicStartTime_TestMode: 20
+  musicStartTime_TestMode: 25
 --- !u!4 &875803495
 Transform:
   m_ObjectHideFlags: 0
