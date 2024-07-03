@@ -8,8 +8,21 @@ public class NotesController : MonoBehaviour
     float notesSpeed;
     bool isGameStart = false;
 
+    const float NoteModelActivePosZ = 10; // ノーツモデルのアクティブ化座標z
+
+    void Start()
+    {
+        // ノーツモデルの非アクティブ化
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+
     void Update()
     {
+        if (transform.position.z < NoteModelActivePosZ && !transform.GetChild(0).gameObject.activeSelf)
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
+
         if (isGameStart)
         {
             UpdatePos(); // 座標更新

@@ -11,8 +11,21 @@ public class MiddleNotesController : MonoBehaviour
     float holdEndTime;   // ホールド終了時の時間
     float gameStartTIme; // ゲーム開始時間
 
+    const float NoteModelActivePosZ = 40; // ノーツモデルのアクティブ化座標z
+
+    void Start()
+    {
+        // ノーツモデルの非アクティブ化
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+
     void Update()
     {
+        if (transform.position.z < NoteModelActivePosZ && !transform.GetChild(0).gameObject.activeSelf)
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
+
         if (isGameStart)
         {
             UpdatePos(); // 座標更新
